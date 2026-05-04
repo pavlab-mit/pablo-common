@@ -1,0 +1,330 @@
+#=====================================================================
+# Additional aliases for the PABLO user. Under version control rather
+# than in ~/.bashrc for easy updating and maintenance.
+#=====================================================================
+
+alias gba='git branch -a'
+alias gss='git status --short'
+alias ga='git add -u'
+alias gaa='git add'
+alias gad='git add -u --dry-run'
+alias ginfo='git remote show origin'
+alias ginfo2='git remote -v'
+
+alias ll='ls -hlF'
+alias ls='ls -F'
+alias llt='ls -ltrh'
+alias duh1='du --max-depth=1 -h'
+alias duhp1='du --max-depth=1 -h -P'
+alias duhl1='du --max-depth=1 -h -L'
+
+alias bashh='source ~/.bashrc'
+
+alias topu='top -u student2680'
+
+alias maa='mhash_archive_all.sh '
+alias al='cdmlr; mhash_archive_all.sh --today --min_dur=7 --min_odo=5 --verbose'
+
+alias nem='emacs -nw '
+alias upcs='source ~/.cshrc'
+alias upbs='source ~/.bashrc'
+alias pablos='pablo_info.sh'
+
+alias nembs='emacs -nw ~/.bashrc; source ~/.bashrc'
+alias nemcs='emacs -nw ~/.cshrc; source ~/.cshrc'
+
+alias cdmitr='pushd ~/Research/moos-ivp/ >& /dev/null'
+alias  mip='cdmitr; ./build.sh; cd -'
+alias mips='cdmitr; ./build.sh -j1; cd -'
+
+alias pingoe='ping 18.18.38.22'
+
+alias qt='qblink.sh white; sleep 3; qblink.sh off'
+
+#=======================================================================
+# 2.680 Aliases
+#=======================================================================
+
+alias   cdmi2='cd ~/moos-ivp-2680'
+alias   cdmi2m='cd ~/moos-ivp-2680/missions'
+
+alias  mi2='cdmi2; ./build.sh'
+alias mi2s='cdmi2s; ./build.sh'
+
+alias cdrb='cdmi2m; cd lab_14_rescue_baseline'
+
+#=======================================================================
+# MOOS-IvP-Pavlab Aliases
+#=======================================================================
+alias     cdmil='cd ~/moos-ivp-pavlab'
+alias    cdmilm='cd ~/moos-ivp-pavlab/missions'
+alias     cdmah='cd ~/moos-ivp-pavlab/missions/alpha_heron'
+alias      cdlf='cd ~/moos-ivp-pavlab/missions/legrun_fixturn'
+alias       mil='cdmil; ./build.sh -j4; cd -'
+alias      milk='cdmil; ./build.sh -j1 -k; cd -'
+alias      mils='cdmil; ./build.sh -j1; cd -'
+
+#=======================================================================
+alias findbig='find . -size +1000M -ls'
+alias find1G='find . -size +1000M -ls'
+alias find100='find . -size +100M -ls'
+alias find10M='find . -size +10M -ls'
+alias findalo='find . -name "*.alog" -print'
+
+alias cdmitr='cd ~/moos-ivp/'
+alias  cdmis='cd ~/moos-ivp/ivp/src'
+alias  cdmix='cd ~/moos-ivp/bin'
+
+alias   pabu='cd ~/pablo-common/; svn update; cd -'
+alias   pacu='cd ~/pablo-common/; svn update; cd -'
+alias  cdpac='cd ~/pablo-common/'
+alias cdpacb='cd ~/pablo-common/bin'
+alias   cdpx='cd ~/pablo-common/bin'
+
+#-----------------------------------------------------
+# MOOS-IvP Missions Directories
+#-----------------------------------------------------
+alias   cdmm='cdmitr; cd ivp/missions/'
+alias  cdmma='cdmitr; cd ivp/missions/x1_alpha'
+alias cdmmas='cdmitr; cd ivp/missions/s1_alpha'
+
+#-----------------------------------------------------
+# missions-auto aliases
+#-----------------------------------------------------
+CDMA_DIR="${HOME}/missions-auto"
+alias  cdma='cd $CDMA_DIR'
+
+alias  cd00='cd $CDMA_DIR/00-alpha_ufld'
+alias  cd01='cd $CDMA_DIR/01-berta'
+alias  cd02='cd $CDMA_DIR/02-obavoid'
+alias  cd03='cd $CDMA_DIR/03-legrun'
+alias  cd04='cd $CDMA_DIR/04-fixedturn'
+alias  cd05='cd $CDMA_DIR/05-multigrid'
+alias  cd06='cd $CDMA_DIR/06-convoy_muster'
+alias  cd07='cd $CDMA_DIR/07-trailing'
+alias  cd12='cd $CDMA_DIR/12-filter-cmgr'
+alias  cd15='cd $CDMA_DIR/15-alpha-obavoid'
+alias  cd50='cd $CDMA_DIR/50-group_fence'
+
+#-----------------------------------------------------
+# missions-swarm aliases
+#-----------------------------------------------------
+CDMS_DIR="${HOME}/missions-swarm"
+alias  cdms='cd $CDMS_DIR'
+
+alias   cdmen='cd $CDMS_DIR/S50-swarm_fence'
+
+alias    cdmj='cd $CDMS_DIR/S51-joust'
+alias   cds51='cd $CDMS_DIR/S51-joust'
+alias   cds52='cd $CDMS_DIR/S52-converge'
+alias  cdmena='cd $CDMS_DIR/S52-converge'
+alias   cds53='cd $CDMS_DIR/S53-saxis'
+alias   cds54='cd $CDMS_DIR/S55-swarm_intercept'
+alias    cdus='cd $CDMS_DIR/S53-saxis'
+alias   cds56='cd $CDMS_DIR/S56-muster'
+alias   cds99='cd $CDMS_DIR/S99-swarm_defend'
+alias    cd99='cd $CDMS_DIR/S99-swarm_defend'
+
+alias  upsg='cd $CDMS_DIR; git stash; upon_reboot_missions_swarm.sh; git stash pop'
+
+
+#-----------------------------------------------------
+# MOOS-IvP-Swarm Mission Directories
+#-----------------------------------------------------
+#alias  cdsw='cd ~/moos-ivp-swarm/'
+#alias cdsws='cd ~/moos-ivp-swarm/src'
+#alias cdswm='cd ~/moos-ivp-swarm/missions'
+#alias cdmen='cd ~/moos-ivp-swarm/missions/ufld_encircle'
+#alias cdsoj='cd ~/moos-ivp-swarm/missions/sea_of_japan'
+#alias cdmuv='cd ~/moos-ivp-swarm/missions/ufld_voronoi'
+#alias   miw='cdsw; ./build.sh; cd -' 
+#alias  miws='cdsw; ./build.sh -j1; cd -' 
+
+# ------------ Subversion Aliases --------------------
+alias svnu='svn update'
+alias svna='svn add \!* '
+alias svnrm='svn remove \!* '
+alias svncm='svn commit -m "" '
+
+alias svns='svn status'
+alias svnsq='svn --quiet status'
+alias svns_h='svns | fgrep "? " | fgrep .h'
+alias svns_cpp='svns | fgrep "? " | fgrep .cpp'
+alias svns_tex='svns | fgrep "? " | fgrep .tex'
+alias svns_tif='svns | fgrep "? " | fgrep .tiff'
+alias svns_ppt='svns | fgrep "? " | fgrep .ppt'
+alias svns_png='svns | fgrep "? " | fgrep .png'
+alias svnsm_one='svnsq; svns_h; svns_cpp; svns_tex; svns_tif'
+alias svnsm_two='svns_ppt'
+alias svnsm='svnsm_one; svnsm_two'
+alias svnsmm='svnsm_one; svnsm_two; svns_png'
+
+alias sshand='ssh-add ~/.ssh/id_ed25519_ncurses_deploy'
+alias sshstd='ssh-add ~/.ssh/id_ed25519_swbox'
+
+# ------------ MISC Linux Aliases --------------------
+alias ev='awk "BEGIN{ print \!* }" '
+alias cdd='cd ../'
+alias cddd='cd ../../'
+alias cdddd='cd ../../../'
+alias cddddd='cd ../../../../'
+
+alias mvoe='scp -rp \!* oceanai.mit.edu:~/'
+
+# make rm, mv, cp interactive to avoid mistakes
+alias rm='rm -i'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ctil='rm -f *~ *.moos++ core* *.bhv++ *.bak'
+
+alias rmx1='chmod ugo-x *.jpg *.GIF .orig *.JPG *.avi *.bhv *.cpp *.h '
+alias rmx2='cmhod ugo-x *.moos Makefile *.tex makefile *.gif *.AVI *.MOV *.mov '
+alias rmx3='chmod ugo-x *.pptx *.fig *.tiff *.eps *.png *.bhv *.vdat *.mp4 '
+alias rmx4='chmod ugo-x *.PDF *.MP4 *.m4v *.mts *.m4a *.MTS *.mov'
+alias rmx='rmx1; rmx2; rmx3; rmx4'
+
+alias cls='clear; ls'
+
+alias cll='./clean.sh; rm -f .DS_Store'
+alias clla='./clean.sh -a; rm -f .DS_Store'
+
+
+# ------------------------------------------------- moos-ivp Find Code
+alias fgrep='fgrep --color=always '
+alias uses='cdmis;  fgrep -n \!* */*.h */*.cpp'
+alias cuses='cdmis;  clear; fgrep \!* */*.h */*.cpp'
+alias usesc='cdmis;  clear; fgrep \!*  */*.cpp'
+alias usesh='cdmis;  fgrep \!* */*.h'
+
+#------------------------------------------------------------------------
+# MOOS-IvP Source Code Directories
+#------------------------------------------------------------------------
+alias   cdmis='cdmitr; cd ivp/src/'
+alias  cdmido='cdmitr; cd ivp/docs/'
+alias  cdmida='cdmitr; cd ivp/data/'
+alias   cdmid='cdmitr; cd ivp/data/'
+alias  cdmidd='cd ~/Research/moos-ivp-data/'
+
+alias  cdcore='cdmitr; cd ivp/src/lib_ivpcore'
+alias   cddef='cdmitr; cd ivp/src/lib_ivpdef'
+alias    cdso='cdmitr; cd ivp/src/lib_ivpsolve'
+alias   cdbld='cdmitr; cd ivp/src/lib_ivpbuild'
+alias    cdul='cdmitr; cd ivp/src/lib_mbutil'
+alias   cdlmf='cdmitr; cd ivp/src/lib_manifest'
+alias   cdgeo='cdmitr; cd ivp/src/lib_geometry'
+alias    cdlc='cdmitr; cd ivp/src/lib_contacts'
+alias   cdllo='cdmitr; cd ivp/src/lib_logic'
+alias   cdlen='cdmitr; cd ivp/src/lib_encounters'
+alias    cden='cdmitr; cd ivp/src/lib_encounters'
+alias    cdau='cdmitr; cd ivp/src/lib_apputil'
+alias   cdlau='cdmitr; cd ivp/src/lib_apputil'
+alias   cdluf='cdmitr; cd ivp/src/lib_ufield'
+alias    cdbu='cdmitr; cd ivp/src/lib_bhvutil'
+alias   cdavk='cdmitr; cd ivp/src/lib_avk'
+alias    cdbh='cdmitr; cd ivp/src/lib_behaviors'
+alias   cdbhm='cdmitr; cd ivp/src/lib_behaviors-marine'
+alias   cdlmv='cdmitr; cd ivp/src/lib_marineview/'
+alias   cdllv='cdmitr; cd ivp/src/lib_ulogview/'
+alias    cdlh='cdmitr; cd ivp/src/lib_helmivp/'
+alias   cdipv='cdmitr; cd ivp/src/lib_ipfview/'
+alias    cdlu='cdmitr; cd ivp/src/lib_logutils/'
+alias   cdlul='cdmitr; cd ivp/src/lib_ulogview/'
+alias   cdlnp='cdmitr; cd ivp/src/lib_navplot/'
+
+alias    cdas='cdmitr; cd ivp/src/app_alogscan/'
+alias   cdals='cdmitr; cd ivp/src/app_alogsplit/'
+alias   cdasp='cdmitr; cd ivp/src/app_alogsplit/'
+alias cdasort='cdmitr; cd ivp/src/app_alogsort/'
+alias   cdnsp='cdmitr; cd ivp/src/app_nsplug/'
+alias    cdlv='cdmitr; cd ivp/src/app_alogview/'
+alias  cdcpab='cdmitr; cd ivp/src/app_cpabench/'
+alias    cdag='cdmitr; cd ivp/src/app_aloggrep/'
+alias    cdah='cdmitr; cd ivp/src/app_aloghelm/'
+alias cdagrep='cdmitr; cd ivp/src/app_aloggrep/'
+alias   cdalc='cdmitr; cd ivp/src/app_alogclip/'
+alias    cdck='cdmitr; cd ivp/src/app_alogcheck/'
+alias   cdarm='cdmitr; cd ivp/src/app_alogrm/'
+alias   cdalp='cdmitr; cd ivp/src/app_alogpare/'
+alias    cdap='cdmitr; cd ivp/src/app_alogpare/'
+alias   cdpom='cdmitr; cd ivp/src/pObstacleMgr'
+
+
+alias  cdisay='cdmitr; cd ivp/src/iSay'
+alias  cdumac='cdmitr; cd ivp/src/uMAC'
+alias   cdmac='cdmitr; cd ivp/src/uMAC'
+alias    cdum='cdmitr; cd ivp/src/uMAC'
+alias   cdumv='cdmitr; cd ivp/src/uMACView'
+
+alias cdufmh='cdmitr; cd ivp/src/uFldMessageHandler'
+alias  cdmsg='cdmitr; cd ivp/src/uFldMessageHandler'
+alias  cdusm='cdmitr; cd ivp/src/uSimMarine/'
+alias   cdev='cdmitr; cd ivp/src/pEchoVar'
+alias    cdh='cdmitr; cd ivp/src/pHelmIvP/'
+alias   cdph='cdmitr; cd ivp/src/pHostInfo/'
+alias  cdphi='cdmitr; cd ivp/src/pHostInfo/'
+alias   cdhi='cdmitr; cd ivp/src/pHostInfo/'
+alias  cdpid='cdmitr; cd ivp/src/pMarinePIDV22/'
+alias   cdcd='cdmitr; cd ivp/src/uFldCollisionDetect/'
+
+alias   cdnb='cdmitr; cd ivp/src/uFldNodeBroker/'
+alias  cdfnb='cdmitr; cd ivp/src/uFldNodeBroker/'
+alias cdufnb='cdmitr; cd ivp/src/uFldNodeBroker/'
+alias  cdusb='cdmitr; cd ivp/src/uFldShoreBroker/'
+alias  cdfsb='cdmitr; cd ivp/src/uFldShoreBroker/'
+alias cdufsb='cdmitr; cd ivp/src/uFldShoreBroker/'
+alias cdufnc='cdmitr; cd ivp/src/uFldNodeComms/'
+alias  cdunc='cdmitr; cd ivp/src/uFldNodeComms/'
+alias  cdufs='cdmitr; cd ivp/src/uFldScope/'
+alias  cdpmv='cdmitr; cd ivp/src/pMarineViewer/'
+alias   cdmv='cdmitr; cd ivp/src/pMarineViewer/'
+alias  cdpnr='cdmitr; cd ivp/src/pNodeReporter'
+alias  cdpxr='cdmitr; cd ivp/src/pXRelay/'
+alias  cdvis='cdmitr; cd ivp/src/uFunctionVis'
+alias  cduhs='cdmitr; cd ivp/src/uHelmScope/'
+alias  cdulw='cdmitr; cd ivp/src/uLoadWatch/'
+alias  cdupw='cdmitr; cd ivp/src/uProcessWatch/'
+alias   cdut='cdmitr; cd ivp/src/uTermCommand/'
+alias  cdutc='cdmitr; cd ivp/src/uTermCommand/'
+alias  cduts='cdmitr; cd ivp/src/uTimerScript/'
+alias  cdpsr='cdmitr; cd ivp/src/pSafetyRetreat/'
+alias  cddmp='cdmitr; cd ivp/src/pDeadManPost/'
+alias cdpdmp='cdmitr; cd ivp/src/pDeadManPost/'
+alias  cdidt='cdmitr; cd ivp/src/iDiffThrust/'
+alias cduxms='cdmitr; cd ivp/src/uXMS/'
+alias   cdux='cdmitr; cd ivp/src/uXMS/'
+alias cdupdb='cdmitr; cd ivp/src/uPokeDB/'
+alias   cduq='cdmitr; cd ivp/src/uQueryDB/'
+
+alias  afind='alias | fgrep -H \!*'
+
+#============================================================
+# Utility for examining the PATH variable line by line
+#============================================================
+mypath() {
+    AMT=50
+    for INDEX in `seq 1 $AMT`;
+    do
+	PART=`echo $PATH | cut -d : -f $INDEX`
+	if [ "${PART}" = "" ]; then
+	    return 0
+	fi
+	echo $PART
+    done
+}
+
+
+#============================================================
+# Utility for examining IVP_BEHAVIOR_DIR variable line by line
+#============================================================
+mydirs() {
+    AMT=20
+    for INDEX in `seq 1 $AMT`;
+    do
+	PART=`echo $IVP_BEHAVIOR_DIRS | cut -d : -f $INDEX`
+	if [ "${PART}" = "" ]; then
+	    return 0
+	fi
+	echo $PART
+    done
+}
+

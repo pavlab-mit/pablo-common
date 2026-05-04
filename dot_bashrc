@@ -1,0 +1,114 @@
+#!/bin/bash
+
+##################################################################
+# MOOS-IvP Settings
+##################################################################
+PATH=$PATH:~/moos-ivp/bin
+PATH=$PATH:~/moos-ivp/ivp/bin
+PATH=$PATH:~/moos-ivp/scripts
+PATH=$PATH:~/moos-ivp-heron/bin
+PATH=$PATH:~/moos-ivp-blueboat/bin
+PATH=$PATH:~/moos-ivp-swarm/bin
+PATH=$PATH:~/moos-ivp-swarm/trunk/bin
+PATH=$PATH:~/moos-ivp-pavlab/bin
+PATH=$PATH:~/HydroMAN/bin
+PATH=$PATH:~/moos-ivp-2680-staff/bin
+PATH=$PATH:~/moos-ivp-multi/bin
+
+
+##################################################################
+# Adding for monte-moos
+##################################################################
+# matplotlib support
+PATH=$PATH:~/.local/bin
+# Add to path for monte-moos
+PABLO_TYPE=`${HOME}/pablo-common/bin/get_vname.sh --wait --ptype`
+if [ "${PABLO_TYPE}" = "monte" ]; then
+  echo "        upon_reboot.sh: Designated monte-moos pablo. Attempting to run..." >> ~/.rebootlog
+  MONTE_MOOS_BASE_DIR="/home/student2680/monte-moos"
+  CARLO_DIR_LOCATION="/home/student2680/carlo_dir"
+  if [[ -d "${MONTE_MOOS_BASE_DIR}" && -d "${CARLO_DIR_LOCATION}" ]]; then
+    export MONTE_MOOS_BASE_DIR="${MONTE_MOOS_BASE_DIR}"
+    export PATH="${PATH}:${MONTE_MOOS_BASE_DIR}/global_scripts"
+    export CARLO_DIR_LOCATION="${CARLO_DIR_LOCATION}"
+    rm -f ${CARLO_DIR_LOCATION}/monte_info ${CARLO_DIR_LOCATION}/.password
+    cp ~/pablo-common/monte_info ${CARLO_DIR_LOCATION}/monte_info
+    cp ~/.monte_password ${CARLO_DIR_LOCATION}/.password
+    source ${CARLO_DIR_LOCATION}/monte_info 
+  fi
+fi
+
+if [[ ! -z $IVP_BEHAVIOR_DIRS ]]; then
+    export IVP_BEHAVIOR_DIRS=$IVP_BEHAVIOR_DIRS:~/moos-ivp/lib
+else
+    export IVP_BEHAVIOR_DIRS=~/moos-ivp/lib
+fi
+
+IVP_BEHAVIOR_DIRS+=:$HOME/moos-ivp-pavlab/lib
+IVP_BEHAVIOR_DIRS+=:$HOME/moos-ivp-swarm/lib
+IVP_BEHAVIOR_DIRS+=:$HOME/moos-ivp-swarm/trunk/lib
+IVP_BEHAVIOR_DIRS+=:$HOME/moos-ivp-2680/lib
+IVP_BEHAVIOR_DIRS+=:$HOME/moos-ivp-multi/lib
+export IVP_BEHAVIOR_DIRS
+   
+
+##################################################################
+# pablo-common Settings
+##################################################################
+if [ -e $HOME/pablo-common-aro ]; then 
+    PABLO_DIR=$HOME/pablo-common-aro
+else
+    PABLO_DIR=$HOME/pablo-common
+fi
+export PABLO_DIR
+
+# General pablo-common
+PATH=$PATH:$PABLO_DIR/bin
+
+# SeaTrain Fleet Manager
+# PATH=$PATH:$PABLO_DIR/FleetManagerScripts
+
+##################################################################
+# Add ssh authorized keys
+##################################################################
+IN_SSH_KEYS=$PABLO_DIR/pablo_authorized_keys
+TARG_SSH_KEYS=~/.ssh/authorized_keys
+$PABLO_DIR/bin/copy_no_duplicates.sh $IN_SSH_KEYS $TARG_SSH_KEYS
+
+#################################################################
+# Get Temperature function for RasPIs
+##################################################################
+function getTemperature() {
+  if [ -x "$(command -v vcgencmd)" ]; then
+    # The following regex gets the first group of numbers longer than
+    # 2 digits
+    TEMP=`vcgencmd measure_temp | grep -oE '([0-9]+){2,}'`
+    if [ $TEMP -ge 70 ]; then
+      RESET=`tput sgr0`
+      RED=`tput setaf 1`
+      TEMP="${RED}${TEMP}"
+    fi
+    echo "${TEMP}°"
+    unset RESET RED
+  fi
+}
+
+alias cdlr='cd ~/moos-ivp-pavlab/missions/legrun_pavlab'
+alias cdmc='cd ~/moos-ivp-pavlab/missions/convoy'
+alias cdua='cd ~/moos-ivp/ivp/missions/ufld_alpha'
+alias rma='cdua; ./launch_vehicle.sh --ip=192.168.2.2 --shore=192.168.2.1 '
+
+##################################################################
+# SeaBeaver II/III related
+##################################################################
+if [ -f $HOME/MITFrontseat-drivers/scripts/dot_bash_seabeaver ]; then
+    . $HOME/MITFrontseat-drivers/scripts/dot_bash_seabeaver
+fi
+
+if [ -f $HOME/StackUxV-drivers/scripts/dot_bash_seabeaver ]; then
+    . $HOME/StackUxV-drivers/scripts/dot_bash_seabeaver
+fi
+
+if [ -f $HOME/StackUxV-DEBIAN-PKG-ARCHIVE/SYSTEM_sb3/dot_bash_seabeaver ]; then
+    . $HOME/StackUxV-DEBIAN-PKG-ARCHIVE/SYSTEM_sb3/dot_bash_seabeaver
+fi
