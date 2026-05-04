@@ -3,6 +3,7 @@
 # Script: get_vname.sh
 #   Date: Aug 10th, 2018
 #   Date: Mar 3rd, 2023 substantial mods by mikerb
+#   Date: Apr 20th, 2026 substantial mods by mikerb
 #     By: Mike Benjamin
 #  About: A script for use on the pablos for guessing the
 #         Heron or MTASC name for this pablo.
@@ -198,11 +199,11 @@ elif [ "${MAC_ADDR}" = "dc:a6:32:4b:88:b7" ]; then VNAME="paba43";
 elif [ "${MAC_ADDR}" = "dc:a6:32:4b:85:77" ]; then VNAME="paba44"; 
 elif [ "${MAC_ADDR}" = "dc:a6:32:4b:85:7b" ]; then VNAME="paba45";     
 elif [ "${MAC_ADDR}" = "dc:a6:32:4b:87:a9" ]; then VNAME="paba46"; 
-#elif [ "${MAC_ADDR}" = "dc:a6:32:4b:85:b1" ]; then VNAME="paba47"; 
-#elif [ "${MAC_ADDR}" = "dc:a6:32:4b:84:df" ]; then VNAME="paba48"; 
-#elif [ "${MAC_ADDR}" = "dc:a6:32:4b:81:49" ]; then VNAME="paba49"; 
-#elif [ "${MAC_ADDR}" = "dc:a6:32:4b:88:00" ]; then VNAME="paba50"; 
-#elif [ "${MAC_ADDR}" = "dc:a6:32:53:4b:d8" ]; then VNAME="paba51"; 
+elif [ "${MAC_ADDR}" = "dc:a6:32:4b:85:b1" ]; then VNAME="paba47"; 
+elif [ "${MAC_ADDR}" = "dc:a6:32:4b:84:df" ]; then VNAME="paba48"; 
+elif [ "${MAC_ADDR}" = "dc:a6:32:4b:81:49" ]; then VNAME="paba49"; 
+elif [ "${MAC_ADDR}" = "dc:a6:32:4b:88:00" ]; then VNAME="paba50"; 
+elif [ "${MAC_ADDR}" = "dc:a6:32:53:4b:d8" ]; then VNAME="paba51"; 
 						   
 elif [ "${MAC_ADDR}" = "dc:a6:32:6f:cc:e3" ]; then VNAME="pab01"; 
 elif [ "${MAC_ADDR}" = "dc:a6:32:55:bd:c4" ]; then VNAME="pab02"; 
@@ -278,9 +279,8 @@ elif [ "${MAC_ADDR}" = "b8:27:eb:eb:18:07" ]; then VNAME="pablo27";
 elif [ "${MAC_ADDR}" = "b8:27:eb:c5:52:91" ]; then VNAME="pablo29"; 
 elif [ "${MAC_ADDR}" = "b8:27:eb:de:cd:09" ]; then VNAME="pablo32"; 
 
-#    elif [ "${MAC_ADDR}" = "b8:27:eb:dc:01:07" ]; then VNAME="pablo33"; 
+elif [ "${MAC_ADDR}" = "b8:27:eb:dc:01:07" ]; then VNAME="pablo33"; 
 elif [ "${MAC_ADDR}" = "b8:27:eb:8b:8e:e9" ]; then VNAME="pablo34"; 
-						   
 elif [ "${MAC_ADDR}" = "b8:27:eb:51:a5:db" ]; then VNAME="pablo35"; 
 elif [ "${MAC_ADDR}" = "b8:27:eb:57:7f:69" ]; then VNAME="pablo36"; 
 elif [ "${MAC_ADDR}" = "b8:27:eb:68:6d:74" ]; then VNAME="pablo37"; 
@@ -403,130 +403,34 @@ elif [ "${MAC_ADDR}" = "d8:3a:dd:a0:90:8d" ]; then VNAME="pabaj97";
 elif [ "${MAC_ADDR}" = "d8:3a:dd:a0:93:35" ]; then VNAME="pabaj98"; 
 elif [ "${MAC_ADDR}" = "d8:3a:dd:a0:92:a1" ]; then VNAME="pabaj99"; 
 elif [ "${MAC_ADDR}" = "d8:3a:dd:fb:47:b1" ]; then VNAME="pabaj100"; 
-						   
 
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:e5:74" ]; then VNAME="str01";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:e2:e8" ]; then VNAME="str02";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:f7:99" ]; then VNAME="str03";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:c2:02" ]; then VNAME="str04";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:c9:7d" ]; then VNAME="str05";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9d:13:f1" ]; then VNAME="str06";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:d0:94" ]; then VNAME="str07";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:f6:e8" ]; then VNAME="str08";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:c2:90" ]; then VNAME="str09";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9d:17:0e" ]; then VNAME="str10";
+
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:75:8f" ]; then VNAME="str11";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:79:af" ]; then VNAME="str12";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:f5:14" ]; then VNAME="str13";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:cd:4c" ]; then VNAME="str14";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:d1:28" ]; then VNAME="str15";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:73:13" ]; then VNAME="str16";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9d:17:2a" ]; then VNAME="str17";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9c:cb:da" ]; then VNAME="str18";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:74:21" ]; then VNAME="str19";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9d:12:56" ]; then VNAME="str20";
 fi
 
 # if one of those MAC addresses matches, the we have an mtasc pablo
 if [ "${VNAME}" != "pablo" ]; then
     PABLO_TYPE="mtasc"
 fi
-
-
-#--------------------------------------------------------
-# Part: Manually designate motnte-moos pablos
-#--------------------------------------------------------
-#if [ "${VNAME}" = "pabaj41" ]; then PABLO_TYPE="monte";
-if [ "${VNAME}" = "paba42" ]; then PABLO_TYPE="monte";
-elif [ "${VNAME}" = "paba43" ]; then PABLO_TYPE="monte";
-elif [ "${VNAME}" = "paba44" ]; then PABLO_TYPE="monte";
-elif [ "${VNAME}" = "paba45" ]; then PABLO_TYPE="monte";
-elif [ "${VNAME}" = "paba46" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj50" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj49" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj48" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj47" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj46" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj45" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj44" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj43" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj42" ]; then PABLO_TYPE="monte"; 
-#elif [ "${VNAME}" = "pabaj41" ]; then PABLO_TYPE="monte"; 
-fi
-
-#--------------------------------------------------------
-# Part: Check MAC address of known Sea Beaver II's
-#       and the associated pocket beagle.  It was assumed
-#       that the ip address would not be known when the
-#       script could be run, but is listed for reference
-#--------------------------------------------------------
-# serial no : 
-# ip address: 192.168.0.50
-if [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:3c" ]; then VNAME="avi";      PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:04:ac" ]; then VNAME="avi-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.51			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:98:8f" ]; then VNAME="bee";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f1:01:4e" ]; then VNAME="bee-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.52			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9a:6d" ]; then VNAME="cap";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:98:d6" ]; then VNAME="cap-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.53			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:f2:b4:cb" ]; then VNAME="dan";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:a1:94" ]; then VNAME="dan-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.54			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:98:3a" ]; then VNAME="ebb";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ef:cf:6e" ]; then VNAME="ebb-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.55			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9c:6d" ]; then VNAME="fay";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:8b:c1" ]; then VNAME="fay-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.56			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:10" ]; then VNAME="geo";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:98:cd" ]; then VNAME="geo-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.57			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:69" ]; then VNAME="ham";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f1:b6:f8" ]; then VNAME="ham-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.58			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:98:ab" ]; then VNAME="ivy";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:b3:24" ]; then VNAME="ivy-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.59			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9b:cc" ]; then VNAME="jan";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:9d:8f" ]; then VNAME="jan-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.60			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9c:09" ]; then VNAME="kay";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:a1:fa" ]; then VNAME="kay-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.61			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:98:fe" ]; then VNAME="lee";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f1:75:67" ]; then VNAME="lee-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.62			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:c3:9e:65" ]; then VNAME="mel";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:9d:bf" ]; then VNAME="mel-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.63			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:98:c8" ]; then VNAME="nat";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:b7:1a" ]; then VNAME="nat-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.64			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9b:a9" ]; then VNAME="oak";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f1:ba:eb" ]; then VNAME="oak-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.65			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:2a" ]; then VNAME="pal";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:b8:67" ]; then VNAME="pal-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.66			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9a:fc" ]; then VNAME="que";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:8b:dc" ]; then VNAME="que-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.67			   						   
-elif [ "${MAC_ADDR}" = "TO CHANGE 0:04:ac" ]; then VNAME="ron";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "TO CHANGE 0:04:ac" ]; then VNAME="ron-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.68			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:84" ]; then VNAME="sid";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:a1:f1" ]; then VNAME="sid-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.69			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9c:3e" ]; then VNAME="tad";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:ee:a1:be" ]; then VNAME="tad-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.70			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:13" ]; then VNAME="umm";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f1:b6:e3" ]; then VNAME="umm-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.71			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:f2:b7:8e" ]; then VNAME="val";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "30:e2:83:31:8f:fe" ]; then VNAME="val-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.72			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:98:97" ]; then VNAME="wes";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:e6:7d:3c" ]; then VNAME="wes-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.73			   						   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:f2:b8:17" ]; then VNAME="xiu";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f1:b6:f5" ]; then VNAME="xiu-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.74			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:99:a8" ]; then VNAME="yen";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "30:e2:83:33:75:44" ]; then VNAME="yen-PB"; PABLO_TYPE="SeaBeaverII-PB";
-# ip address: 192.168.0.75			   
-elif [ "${MAC_ADDR}" = "d8:3a:dd:6f:9c:13" ]; then VNAME="zan";    PABLO_TYPE="SeaBeaverII";
-elif [ "${MAC_ADDR}" = "1c:63:49:f0:8d:92" ]; then VNAME="zan-PB"; PABLO_TYPE="SeaBeaverII-PB";   
-fi
-
-#---------------------------------------------------------------
-# Part : SeaScout vehicles here:
-#         
-#---------------------------------------------------------------
-
-
 
 #---------------------------------------------------------------
 # Part 4: If 4th field of IP Addr is 100, likely a Heron, even if
@@ -561,8 +465,8 @@ if [[ $IPD -eq 100 ]]; then
 	if [ $IPC -eq 22 ]; then VNAME="heron-oak"; fi
 	if [ $IPC -eq 23 ]; then VNAME="heron-pip"; fi
 	if [ $IPB -eq 31 ]; then VNAME="blueboat-zoe"; fi
-    if [ $IPB -eq 32 ]; then VNAME="blueboat-yip"; fi
-    if [ $IPB -eq 33 ]; then VNAME="blueboat-xai"; fi
+	if [ $IPB -eq 32 ]; then VNAME="blueboat-yip"; fi
+	if [ $IPB -eq 33 ]; then VNAME="blueboat-xai"; fi
 	
 	# if heron name set, ensure type is not mtasc
 	if [ "${VNAME}" != "pablo" ]; then
@@ -571,7 +475,6 @@ if [[ $IPD -eq 100 ]]; then
     fi
 fi
 
-
 #--------------------------------------------------------
 # Part: If querying pablo type, we know it now, return it now
 #--------------------------------------------------------
@@ -579,19 +482,6 @@ if [ "${GET_PTYPE}" = "yes" ]; then
     echo -n $PABLO_TYPE
     exit 0
 fi
-
-#--------------------------------------------------------
-# Part: If the pablo is one of our build-test machines
-#       set the name accordingly.
-#--------------------------------------------------------
-#if [ "$VNAME" = "pablo34" -a "$PABLO_TYPE" = "bt" ]; then
-#    VNAME="bt_jessie_34"
-#elif [ "$VNAME" = "pablo32" -a "$PABLO_TYPE" = "bt" ]; then
-#    VNAME="bt_stretch_32"
-#elif [ "$VNAME" = "pablo09" -a "$PABLO_TYPE" = "bt" ]; then
-#    VNAME="bt_buster_09"
-#fi
-
 
 #--------------------------------------------------------
 # Part: Reduce heron-abe etc to just abe if requested
