@@ -5,7 +5,6 @@
 #  Date:   Dec 2nd, 2019
 #  About:  This script will be invoked upon a reboot of the
 #          pablo, by an @reboot cronjob.
-#          For MTASC cluster pablos, not Heron/2.680 pablos
 #--------------------------------------------------------------
 #  Part 1: Set the path for the script. When run as a cronjob
 #  it will only have /bin and /usr/bin by default, so we add
@@ -54,13 +53,7 @@ for ARGI; do
 	echo "  --verbose,  -v      Increase verbosity               " 
         echo "  --info,     -i      Display short synopsis           " 
 	echo "                                                       "
-	echo "State:                                                 "
-	echo " Yellow Solid:  svn update of moos-ivp                 "
-	echo " Yellow Blink:  Building moos-ivp                      "
-	echo " Purple Solid:  svn update of moos-ivp-swarm (if present)"
-	echo " Purple Blink:  Building moos-ivp-swarm (if present)   "
-	echo " Cyan Solid:    svn update of moos-ivp-pavlab (if present)"
-	echo " Cyan Blink:    Building moos-ivp-pavlab (if present)   "
+	echo "Final State Colors:                                    "
 	echo " Green Solid:   Done - All OK                          "
 	echo " Red Blink:     Done - All is NOT OK                   "
 	echo "                                                       "
@@ -69,7 +62,6 @@ for ARGI; do
 	echo "  1 if bad command line arg                            "
 	echo "  2 if unable to establish internet connection.        "
 	echo "  3 if one or more of the builds failed.               "
-
 	exit 0;
     elif [ "${ARGI}" = "--verbose" -o "${ARGI}" = "-v" ]; then
 	VERBOSE="yes"
@@ -135,7 +127,6 @@ fi
 #  Part 7: Updating the moos-ivp-pavlab tree
 #-------------------------------------------------------
 PABLO_NAME=`get_vname.sh`
-#if [ "${PABLO_NAME:0:5}" != "pabaj" ]; then
 TS=`uptime | awk '{print $1}'`
 echo "  (D) $ME: updating moos-ivp-pavlab tree $TS" >> ~/.rebootlog
 upon_reboot_pavlab.sh
@@ -190,18 +181,6 @@ if [ "$?" != "0" ]; then
 fi
 
 PABLO_TYPE=`get_vname.sh --wait --ptype`
-if [ "${PABLO_TYPE}" = "monte" ]; then
-    #-------------------------------------------------------
-    #  Part 9: Updating the monte-moos tree
-    #-------------------------------------------------------
-    TS=`uptime | awk '{print $1}'`
-    echo "  (Z) $ME: updating monte-moos tree $TS" >> ~/.rebootlog
-    upon_reboot_monte.sh
-    if [ "$?" != "0" ]; then
-        ALL_OK+=" monte-moos"
-    fi
-fi
-
 
 #-------------------------------------------------------
 #  Part 12: Updating the autotest tree
@@ -213,72 +192,18 @@ fi
 #    ALL_OK+=" autotest"
 #fi
 
-
-
 #-------------------------------------------------------
 #  Part N: Finish up! 
 #-------------------------------------------------------
-if [ "$ALL_OK" = "" ]; then 
-    qblink.sh green --time=900 --b30 -2 &
-else
-    qblink.sh red --blink=1000 -2 &
-fi
-
-~/moos-ivp/scripts/ipaddrs.sh
-
 TS=`date +%H:%I:%S`
 if [ "${ALL_OK}" = "" ]; then
     echo "  (END) $ME: ALL_OK: YES $TS" >> ~/.rebootlog
+    qblink.sh green --time=900 --b30 -2 &
 else
     echo "  (END) $ME: ALL_OK: NO:$ALL_OK $TS" >> ~/.rebootlog
-fi
-    
-#================================================================
-# ONLY start monte-moos if configured to do so
-# AND monte-moos is downloaded
-if [ "${PABLO_TYPE}" = "monte" ]; then
-  echo "   $ME: Designated monte-moos pablo. Attempting to run..." >> ~/.rebootlog
-  
-  MONTE_MOOS_BASE_DIR="$HOME/monte-moos"
-  CARLO_DIR_LOCATION="$HOME/carlo_dir"
-
-  if [[ -d "${MONTE_MOOS_BASE_DIR}" && -d "${CARLO_DIR_LOCATION}" ]]; then
-    # Included this here as well as in the bashrc so it works on the 
-    # first boot after a fresh install
-    export MONTE_MOOS_BASE_DIR="${MONTE_MOOS_BASE_DIR}"
-    export PATH="${PATH}:${MONTE_MOOS_BASE_DIR}/global_scripts"
-    export CARLO_DIR_LOCATION="${CARLO_DIR_LOCATION}"
-    rm -f ${CARLO_DIR_LOCATION}/monte_info ${CARLO_DIR_LOCATION}/.password
-    cp ~/pablo-common/monte_info ${CARLO_DIR_LOCATION}/monte_info
-    cp ~/.monte_password ${CARLO_DIR_LOCATION}/.password
-    source ${CARLO_DIR_LOCATION}/monte_info 
-    # Start monte-moos
-    cd "$CARLO_DIR_LOCATION"
-    echo $($HOME/pablo-common/bin/get_vname.sh) > myname.txt
-    echo "Starting monte-moos client"
-    if [ -f ~/monte_client_loop.log ]; then
-      rm -f ~/monte_client_loop.log.old
-      mv ~/monte_client_loop.log ~/monte_client_loop.log.old
-    fi
-    monte_client_loop.sh -p -y 2>&1 >> monte_client_loop.log & 
-    echo "Scheduling a reboot in 12 hours"
-    shutdown -r +720 &
-  else
-    echo "        $ME: Could not find monte-moos tree. Not running." >> ~/.rebootlog
-  fi
-else
-    #echo "        $ME: not a monte-moos pablo. Not running." >> ~/.rebootlog
-    echo "        $ME: not a monte-moos pablo. Not running."
-fi
-
-
-#-------------------------------------------------------
-#  Handle return value. 0 only if ALL_K
-#-------------------------------------------------------
-if [ "$ALL_OK" != "" ]; then 
+    qblink.sh red --blink=1000 -2 &
     exit 3
 fi
-
 
 #-------------------------------------------------------
 #  Added mikerb Jul 18, 24
