@@ -2,13 +2,12 @@
 #--------------------------------------------------------
 #  Script: mlaunch.sh
 #  Author: Mike Benjamin
-#  Date:   December 8th, 2019
-#  Date:   January 5th, 2021
+#  Date:   April 15th, 2026
 #  About:  A script for launching pablo missions
 #--------------------------------------------------------
-#  Part 1: Define a convenience function for producing terminal 
-#          debugging/status output depending on the verbosity.
-#-------------------------------------------------------
+#  Part 1: Convenience function for producing terminal 
+#          debugging output depending on verbosity.
+#--------------------------------------------------------
 vecho () {
     if [ "$VERBOSE" = "yes" ]; then
         echo $1
@@ -19,6 +18,7 @@ vecho () {
 #-------------------------------------------------------
 #  Part 2: Initialize global variables
 #-------------------------------------------------------
+ME=`basename "$0"`
 MISSION=""
 LAUNCH_ARGS=""
 USER_MODE="no"
@@ -38,13 +38,12 @@ VFAIL_COLOR="red"
 #-------------------------------------------------------
 for ARGI; do
     if [ "${ARGI}" = "--help" -o "${ARGI}" = "-h" ] ; then
-        echo "mlaunch.sh  [OPTIONS]                                "
+        echo "$ME  [OPTIONS]                                       "
         echo "                                                     " 
         echo "Synopsis:                                            " 
-        echo "  The mlaunch.sh script is the point-of-entry script "  
+        echo "  The $ME script is the point-of-entry script  "  
         echo "  for remote auto launching of a vehicle mission on  " 
         echo "  a pablo from a shoreside or similar computer.      " 
-        echo "  A fixed set of possible missions may be launched.  " 
         echo "  Other than choosing the mission type, most other   " 
         echo "  args are simply passed to the launch_vehicle.sh    " 
         echo "  script in that mission folder                      " 
@@ -104,98 +103,32 @@ LOG_ENTRY=`date`" "$MISSION
 vecho "================================================="
 vecho "${LOG_ENTRY}"
 vecho "================================================="
-vecho "Output produced from pablo_common/bin/mlaunch.sh "
+vecho "Output produced from pablo_common/bin/$ME        "
 vecho "Command Line args:                               "
-vecho "  VERBOSE=$VERBOSE                               "
-vecho "  USER_MODE=$USER_MODE                           "
+vecho "       VERBOSE=$VERBOSE                          "
+vecho "     USER_MODE=$USER_MODE                        "
 vecho "  LAUNCH_COLOR=$LAUNCH_COLOR                     "
-vecho "  PFAIL_COLOR=$PFAIL_COLOR                       "    
-vecho "  VFAIL_COLOR=$VFAIL_COLOR                       "    
-vecho "  LAUNCH_ARGS=$LAUNCH_ARGS                       "    
+vecho "   PFAIL_COLOR=$PFAIL_COLOR                      "    
+vecho "   VFAIL_COLOR=$VFAIL_COLOR                      "    
+vecho "   LAUNCH_ARGS=$LAUNCH_ARGS                      "    
 
 qblink.sh --blink=100 $LAUNCH_COLOR
 
 #-------------------------------------------------------
-#  Part 5: Set, verify and cd to the mission directory
+#  Part 5: Set, verify existence of the mission directory
 #-------------------------------------------------------
-
-MISSION_DIR=""
-if [ "$MISSION" = "S50-swarm_fence" ]; then
-    MISSION_DIR="$HOME/missions-auto/S50-swarm_fence"
-elif [ "$MISSION" = "S53-saxis" ]; then
-    MISSION_DIR="$HOME/missions-swarm/S53-saxis"
-
-elif [ "$MISSION" = "joust" -o "$MISSION" = "ufd_joust" ]; then
-    MISSION_DIR="$HOME/project-vandv/missions/ufld_joust"
-elif [ "$MISSION" = "enc" -o "$MISSION" = "ufld_encircle" ]; then
-    MISSION_DIR="$HOME/moos-ivp-swarm/missions/ufld_encircle"
-
-elif [ "$MISSION" = "50-group_fence" ]; then
-    MISSION_DIR="$HOME/missions-auto/50-group_fence"
-elif [ "$MISSION" = "51-group_converge" ]; then
-    MISSION_DIR="$HOME/missions-auto/51-group_converge"
-
-elif [ "$MISSION" = "voi" -o "$MISSION" = "voronoi" ]; then
-    MISSION_DIR="$HOME/moos-ivp-swarm/missions/ufld_voronoi"
-elif [ "$MISSION" = "soj" -o "$MISSION" = "sea_of_japan" ]; then
-    MISSION_DIR="$HOME/moos-ivp-swarm/missions/sea_of_japan"
-elif [ "$MISSION" = "jb" -o "$MISSION" = "jungle_book" ]; then
-    MISSION_DIR="$HOME/moos-ivp-swarm/missions/sea_of_japan"
-
-elif [ "$MISSION" = "mcm" -o "$MISSION" = "convoy_mit" ]; then
-    MISSION_DIR="$HOME/moos-ivp-pavlab/missions/convoy_mit"
-else
-    vecho "Unknown mission: [$MISSION]. Exit code 1."
-    qblink.sh $PFAIL_COLOR -2 --b30
-    exit 1
-fi
-
-if [ "$MISSION_DIR" = "" ]; then
-    vecho "Bad mission directory. Exit code 2."
-    qblink.sh $PFAIL_COLOR  -2 --b30
-    exit 2
-elif [ ! -d $MISSION_DIR ]; then
+MISSION_DIR="$HOME/$MISSION"
+if [ ! -d $MISSION_DIR ]; then
     vecho "Mission dir [$MISSION_DIR] not found. Exit code 3."
     qblink.sh $PFAIL_COLOR -2 --b30
     exit 3
 fi
-
-cd $MISSION_DIR
-if [ "$?" != "0" ]; then
-    vecho "Unable to cd to dir [$MISSION_DIR]. Exit code 4."
-    qblink.sh $PFAIL_COLOR -2 --b30
-    exit 4
-fi
 vecho "Successfully entered MISSION_DIR:$MISSION_DIR "
 
 #-------------------------------------------------------
-#  Part 6: Update the mission  (mikerb Feb0320)
+#  Part 6: Verify launch_vehicle.sh exists
 #-------------------------------------------------------
-if [ -d .svn ]; then
-    SVN_RESULT="SUCCESS"
-    # if svn update fails, invoke cleanup and try again 
-    if [ "${VERBOSE}" = "" ]; then
-	svn update >& /dev/null
-    else
-	svn update 
-    fi
-    OKUP=$?
-    
-    if [ $OKUP != 0 ]; then
-	echo "running cleanup and re-updating"; svn cleanup; svn update
-    fi
-    
-    if [ "$?" != "0" ]; then
-	SVN_RESULT="FAIL"
-	vecho "Failed to svn update dir: $MISSION_DIR"
-    else
-	vecho "Successful svn update dir: $MISSION_DIR"
-    fi
-fi
-
-#-------------------------------------------------------
-#  Part 7: Verify launch_vehicle.sh exists
-#-------------------------------------------------------
+cd $MISSION_DIR
 if [ ! -f "launch_vehicle.sh" ]; then
     vecho "[$MISSION_DIR] has no launch_vehicle.sh. Exit code 5."
     qblink.sh $PFAIL_COLOR  -2 --b30
@@ -203,7 +136,7 @@ if [ ! -f "launch_vehicle.sh" ]; then
 fi
 
 #-------------------------------------------------------
-#  Part 8: Run ktm if configured to do so
+#  Part 7: Run ktm if configured to do so
 #-------------------------------------------------------
 if [ "${RUN_KTM}" = "yes" ]; then
     vecho "Running ktm prior to launch_vehicle"
@@ -213,7 +146,7 @@ if [ "${RUN_KTM}" = "yes" ]; then
 fi
 
 #-------------------------------------------------------
-#  Part 9: Launch the vehicle mission 
+#  Part 8: Launch the vehicle mission 
 #-------------------------------------------------------
 vecho "Launching the vehicle mission..."
 ./launch_vehicle.sh --auto $LAUNCH_ARGS
@@ -231,6 +164,6 @@ if [ "$USER_MODE" = "yes" ]; then
 fi
 
 qblink.sh $LAUNCH_COLOR  -2 --b40
-vecho "Exiting the mlaunch.sh script."
+vecho "Exiting the $ME script."
 exit 0
 
