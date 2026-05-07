@@ -47,13 +47,13 @@ for ARGI; do
         echo "  --2680, -2           Update moos-ivp-2680      "
         echo "                                                 "
         echo "  --build, -b          Build following update    "
-        echo "  --query, -q          Just query the curr branch"
-        echo "  --rand, -r           Random delay up to 60 sec "
+        echo "  --query, -q          Query current branch name "
+        echo "  --rand, -r           Random delay up to 10 sec "
         echo "  --color              Show green if success     "
         echo "                                                 " 
         echo "Examples:                                        "
-        echo "  $ pablo_branch.sh --moos --build test-feature  "
-        echo "  $ pablo_branch.sh -2 -b widget-fix             "
+        echo "  $ pablo_branch.sh --moos --build --branch=foo  "
+        echo "  $ pablo_branch.sh -2 -b --branch=widget-fix    "
         echo "  $ pablo_branch.sh --swarm --query              "
         exit 0;
     elif [ "${ARGI}" = "--verbose" -o "${ARGI}" = "-v" ]; then
