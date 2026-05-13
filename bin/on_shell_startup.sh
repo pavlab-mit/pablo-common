@@ -59,6 +59,7 @@ if [ ! -f ~/.bash_profile ]; then
 fi
 #================================================================
 
-source "$HOME/pablo-common/dot_bashrc"
+. "$HOME/pablo-common/dot_bashrc"
+. "$HOME/pablo-common/pablo-bash-aliases"
 
 vecho "Done Executing on_shell_startup.sh."
