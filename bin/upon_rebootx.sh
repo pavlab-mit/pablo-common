@@ -20,7 +20,6 @@ DATE=`date`
 PATH=$PATH:/bin
 PATH=$PATH:/usr/bin
 PATH=$PATH:/usr/local/bin
-PATH=$PATH:~/Research/project-vandv/bin
 PATH=$PATH:~/pablo-common/bin
 PATH=$PATH:~/pablo-common-aro/bin
 
