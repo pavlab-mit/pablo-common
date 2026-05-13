@@ -21,7 +21,7 @@ add_to_path "$HOME/moos-ivp-multi/bin"
 #---------------------------------------------------------
 # Set IVP_BEHAVIOR_DIRS. Avoid duplicates
 #---------------------------------------------------------
-add_to_bdir "$HOME/moos-ivp/lib"
+IVP_BEHAVIOR_DIRS="$HOME/moos-ivp/lib"
 add_to_bdir() {
     if [[ -d "$1" ]] && [[ ":$IVP_BEHAVIOR_DIRS:" != *":$1:"* ]]; then
         export IVP_BEHAVIOR_DIRS="$IVP_BEHAVIOR_DIRS:$1"
