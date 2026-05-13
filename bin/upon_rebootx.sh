@@ -16,12 +16,10 @@
 #  others that the script may need.
 #--------------------------------------------------------------
 DATE=`date`
-
 PATH=$PATH:/bin
 PATH=$PATH:/usr/bin
 PATH=$PATH:/usr/local/bin
 PATH=$PATH:~/pablo-common/bin
-PATH=$PATH:~/pablo-common-aro/bin
 
 #-------------------------------------------------------
 #  Part 2: Initialize global variables
@@ -73,7 +71,7 @@ tail -n 500 ~/.rebootlog > ~/.tmp && mv -f ~/.tmp ~/.rebootlog
 #-------------------------------------------------------
 echo "                                     " >> ~/.rebootlog
 echo "//===================================" >> ~/.rebootlog
-echo "// $ME (1.1)                         " >> ~/.rebootlog
+echo "// $ME (1.2)                         " >> ~/.rebootlog
 echo "// $DATE                             " >> ~/.rebootlog
 echo "//===================================" >> ~/.rebootlog
 
@@ -131,36 +129,26 @@ ipaddrs.sh
 #  updating this very script, for the next reboot. But
 #  certainly updating upon_reboot.sh script for this reboot.
 #-------------------------------------------------------
-cd ~/pablo-common
-echo "$ME: In $PWD, performing svn update" >> ~/.rebootlog
+cd $HOME/pablo-common
+echo "$ME: In $PWD, performing git pull" >> ~/.rebootlog
 
-SVN_RESULT="SUCCESS"
-svn update && svn cleanup; svn update
+GIT_RESULT="SUCCESS"
+git pull
 if [ "$?" != "0" ]; then
     SVN_RESULT="FAIL"
 fi
 
-echo "$ME: svn update: $SVN_RESULT" >> ~/.rebootlog
-
+echo "$ME: git pull: $GIT_RESULT" >> ~/.rebootlog
 
 #-------------------------------------------------------
-#  Part 8: If pablo is MTASC then continue updating code
+#  Part 8: Continue updating repos
 #-------------------------------------------------------
-
-PABLO_TYPE=`get_vname.sh --wait --ptype`
-if [[ "${PABLO_TYPE}" = "mtasc" ||  "${PABLO_TYPE}" = "monte" ]]; then
-    upon_reboot.sh
-    REBOOT_RES=$?
-else
-    echo "Non-MTASC and non-monte pablo. No auto-updates. Done" >> ~/.rebootlog
-    REBOOT_RES=0
-    qblink.sh off
-fi
+upon_reboot.sh
+REBOOT_RES=$?
 
 #-------------------------------------------------------
 #  Part 9: Finish up!
 #-------------------------------------------------------
-ipaddrs.sh
 
 echo "//======= END upon_rebootx.sh =======" >> ~/.rebootlog
 
