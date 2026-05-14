@@ -59,7 +59,7 @@ cd $CODEBASE_DIR
 echo "  (1) $ME, updating git  " >> ~/.rebootlog
 
 GIT_RESULT="FAIL"
-git pull
+git pull --depth 1
 if [ $? = 0 ]; then
     GIT_RESULT="pass"
 fi

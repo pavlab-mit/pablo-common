@@ -88,7 +88,7 @@ if [ ! -d "${CODEBASE_DIR}" ]; then
      cd $CODEBASE_DIR
      echo "  (1) $ME: Updating $REPO from GitHub  " >> ~/.rebootlog
      PRE_PULL=$(git rev-parse HEAD)
-     git pull
+     git pull --depth 1
      if [ $? = 0 ]; then
 	 GIT_RESULT="pass"
      fi
