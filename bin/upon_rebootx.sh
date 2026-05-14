@@ -7,7 +7,7 @@
 #          pablo, by an @reboot cronjob. It will:
 #          (a) verify a network connection and light RED if no
 #          network, and then
-#          (b) upon a network connection will svn update
+#          (b) upon a network connection will git pull
 #          pablo-common, and then
 #          (c) invoke the upon_reboot.sh script.
 #--------------------------------------------------------------
@@ -41,7 +41,7 @@ for ARGI; do
 	echo "  This script will be invoked upon a reboot of the      "
 	echo "  pablo, by an @reboot cronjob. It (a) verify a network "
 	echo "  connection and light RED if no network, and (b) upon  "
-	echo "  a network connection will svn update pablo-common,    "
+	echo "  a network connection will git pull pablo-common,      "
 	echo "  and then (c) invoke the upon_reboot.sh script.        "
 	echo "                                                        "
 	echo "Options:                                                "
@@ -56,7 +56,7 @@ for ARGI; do
     elif [ "${ARGI}" = "--verbose" -o "${ARGI}" = "-v" ]; then
 	VERBOSE="yes"
     elif [ "${ARGI}" = "--info" -o "${ARGI}" = "-i" ]; then
-	echo "Pablo reboot script. Network, svn update, run upon_reboot.sh"
+	echo "Pablo reboot script. Network, git pull, run upon_reboot.sh"
         exit 0;
     fi
 done
@@ -125,7 +125,7 @@ done
 ipaddrs.sh
 
 #-------------------------------------------------------
-#  Part 7: Invoke svn upate on pablo-common, possibly
+#  Part 7: Invoke git pull on pablo-common, possibly
 #  updating this very script, for the next reboot. But
 #  certainly updating upon_reboot.sh script for this reboot.
 #-------------------------------------------------------
@@ -135,7 +135,7 @@ echo "$ME: In $PWD, performing git pull" >> ~/.rebootlog
 GIT_RESULT="SUCCESS"
 git pull --depth 1 || sleep $((5 + RANDOM % 11)); git pull --depth 1
 if [ "$?" != "0" ]; then
-    SVN_RESULT="FAIL"
+    GIT_RESULT="FAIL"
 fi
 
 echo "$ME: git pull: $GIT_RESULT" >> ~/.rebootlog
