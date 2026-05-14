@@ -133,7 +133,7 @@ cd $HOME/pablo-common
 echo "$ME: In $PWD, performing git pull" >> ~/.rebootlog
 
 GIT_RESULT="SUCCESS"
-git pull --depth 1
+git pull --depth 1 || sleep $((5 + RANDOM % 11)); git pull --depth 1
 if [ "$?" != "0" ]; then
     SVN_RESULT="FAIL"
 fi
