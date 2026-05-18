@@ -106,7 +106,7 @@ if [ $ACTION == "build" ]; then
 
     blink yellow
     START_UTC=$(date +%s)
-    ./build.sh -m >& $BLD_LOG
+    ./build.sh --minrobot clean 2>&1 | tee -a $BLD_LOG
     BLD_RES=$?
     END_UTC=$(date +%s)
     ELAPSED=$((END_UTC - START_UTC))
