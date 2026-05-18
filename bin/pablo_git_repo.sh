@@ -124,16 +124,40 @@ fi
 if [ $ACTION == "pull" ]; then
     cd "$FULL_REPO"
     echo "Handling $ACTION for $REPO"
-    PULL_LOG="${HOME}/.bld_${REPO}"
-    tail -n 800 $PULL_LOG > file.tmp && mv -f file.tmp $PULL_LOG
+    REPO_LOG="${HOME}/.repo_${REPO}"
+    tail -n 800 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
     START_UTC=$(date +%s)
-    git pull >& $PULL_LOG
+    echo -e "\n**************** Pull:$REPO ****************\n" >> $REPO_LOG
+    git pull 2>&1 | tee -a $REPO_LOG
     PULL_RES=$?
     END_UTC=$(date +%s)
     ELAPSED=$((END_UTC - START_UTC))
     DATE=`date +%Y%m%dT%H%M%S`
-    echo "$PULL_RES $ELAPSED $END_UTC $DATE" >> $PULL_LOG    
+    echo "$PULL_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
+    exit 0
+fi
+
+#--------------------------------------------------------
+# Part 7: Handle removing the repo
+#--------------------------------------------------------
+if [ $ACTION == "rm" ]; then
+    cd "$FULL_REPO"
+    echo "Handling $ACTION for $REPO"
+    REPO_LOG="${HOME}/.repo_${REPO}"
+    tail -n 800 $PULL_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+
+    START_UTC=$(date +%s)
+    echo -e "\n**************** Remove:$REPO ****************\n" >> $REPO_LOG
+    if [ -d ".git" ]; then
+	cd ..    
+	rm -rf "$REPO" 2>&1 | tee -a $REPO_LOG
+	RM_RES=$?
+    fi
+    END_UTC=$(date +%s)
+    ELAPSED=$((END_UTC - START_UTC))
+    DATE=`date +%Y%m%dT%H%M%S`
+    echo "$RM_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
     exit 0
 fi
 
