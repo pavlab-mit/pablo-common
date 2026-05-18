@@ -168,6 +168,7 @@ fi
 # Part 9: Handle cloning the repo
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
+    cd $HOME
     echo "Handling $ACTION for $REPO"
     CLONE_LOG="${HOME}/.clone_log"
     tail -n 500 $CLONE_LOG > file.tmp && mv -f file.tmp $CLONE_LOG
