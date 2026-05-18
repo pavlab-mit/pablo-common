@@ -87,10 +87,11 @@ if [ $ACTION = "clean" ]; then
     BLD_LOG="${HOME}/.bld_${REPO}"
     tail -n 800 $BLD_LOG > file.tmp && mv -f file.tmp $BLD_LOG
     cd $FULL_REPO
+    echo -e "\n**************** CLEAN *******************\n" >> $BLD_LOG
     if [ -f "./clean.sh" ]; then
-	./clean.sh  >& $BLD_LOG
+	./clean.sh  2>&1 | tee -a $BLD_LOG
     else
-	./build.sh -m clean >& $BLD_LOG
+	./build.sh -m clean 2>&1 | tee -a $BLD_LOG
     fi
     exit 0
 fi
