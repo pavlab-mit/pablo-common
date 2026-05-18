@@ -125,7 +125,7 @@ if [ $ACTION == "pull" ]; then
     cd "$FULL_REPO"
     echo "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
-    tail -n 800 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+    tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
     START_UTC=$(date +%s)
     echo -e "\n**************** Pull:$REPO ****************\n" >> $REPO_LOG
@@ -145,7 +145,7 @@ if [ $ACTION == "rm" ]; then
     cd "$FULL_REPO"
     echo "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
-    tail -n 800 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+    tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
     START_UTC=$(date +%s)
     echo -e "\n**************** Remove:$REPO ****************\n" >> $REPO_LOG
@@ -169,20 +169,20 @@ fi
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
     echo "Handling $ACTION for $REPO"
-    REPO_LOG="${HOME}/.repo_${REPO}"
-    tail -n 800 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+    CLONE_LOG="${HOME}/.clone_log"
+    tail -n 500 $CLONE_LOG > file.tmp && mv -f file.tmp $CLONE_LOG
 
     START_UTC=$(date +%s)
-    echo -e "\n**************** Clone:$REPO ****************\n" >> $REPO_LOG
+    echo -e "\n**************** Clone:$REPO ****************\n" >> $CLONE_LOG
     if [ ! -d "$REPO" ]; then
-	git clone "$REPO" 2>&1 | tee -a $REPO_LOG
+	git clone "$REPO" 2>&1 | tee -a $CLONE_LOG
 	echo "3333:$?"
 	CLONE_RES=$?
     fi
     END_UTC=$(date +%s)
     ELAPSED=$((END_UTC - START_UTC))
     DATE=`date +%Y%m%dT%H%M%S`
-    echo "$CLONE_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
+    echo "$CLONE_RES $ELAPSED $END_UTC $DATE" >> $CLONE_LOG    
     exit 0
 fi
 
