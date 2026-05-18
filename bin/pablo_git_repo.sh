@@ -145,13 +145,16 @@ if [ $ACTION == "rm" ]; then
     cd "$FULL_REPO"
     echo "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
-    tail -n 800 $PULL_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+    tail -n 800 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
     START_UTC=$(date +%s)
     echo -e "\n**************** Remove:$REPO ****************\n" >> $REPO_LOG
+    echo "1111"
     if [ -d ".git" ]; then
+	echo "2222"
 	cd ..    
 	rm -rf "$REPO" 2>&1 | tee -a $REPO_LOG
+	echo "3333:$?"
 	RM_RES=$?
     fi
     END_UTC=$(date +%s)
