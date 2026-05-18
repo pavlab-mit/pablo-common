@@ -97,7 +97,7 @@ if [ $ACTION = "clean" ]; then
 fi
 
 #--------------------------------------------------------
-# Part 5: Handle the build action
+# Part 6: Handle the build action
 #--------------------------------------------------------
 if [ $ACTION == "build" ]; then
     cd "$FULL_REPO"
@@ -119,7 +119,7 @@ if [ $ACTION == "build" ]; then
 fi
 
 #--------------------------------------------------------
-# Part 6: Handle updating the repo (git pull)
+# Part 7: Handle updating the repo (git pull)
 #--------------------------------------------------------
 if [ $ACTION == "pull" ]; then
     cd "$FULL_REPO"
@@ -139,7 +139,7 @@ if [ $ACTION == "pull" ]; then
 fi
 
 #--------------------------------------------------------
-# Part 7: Handle removing the repo
+# Part 8: Handle removing the repo
 #--------------------------------------------------------
 if [ $ACTION == "rm" ]; then
     cd "$FULL_REPO"
@@ -161,6 +161,28 @@ if [ $ACTION == "rm" ]; then
     ELAPSED=$((END_UTC - START_UTC))
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$RM_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
+    exit 0
+fi
+
+#--------------------------------------------------------
+# Part 9: Handle cloning the repo
+#--------------------------------------------------------
+if [ $ACTION == "clone" ]; then
+    echo "Handling $ACTION for $REPO"
+    REPO_LOG="${HOME}/.repo_${REPO}"
+    tail -n 800 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+
+    START_UTC=$(date +%s)
+    echo -e "\n**************** Clone:$REPO ****************\n" >> $REPO_LOG
+    if [ ! -d "$REPO" ]; then
+	git clone "$REPO" 2>&1 | tee -a $REPO_LOG
+	echo "3333:$?"
+	CLONE_RES=$?
+    fi
+    END_UTC=$(date +%s)
+    ELAPSED=$((END_UTC - START_UTC))
+    DATE=`date +%Y%m%dT%H%M%S`
+    echo "$CLONE_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
     exit 0
 fi
 
