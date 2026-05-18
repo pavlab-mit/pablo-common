@@ -97,7 +97,7 @@ if [ $ACTION = "clean" ]; then
 fi
 
 #--------------------------------------------------------
-# Part 5: Handle the build and build clean actions
+# Part 5: Handle the build action
 #--------------------------------------------------------
 if [ $ACTION == "build" ]; then
     cd "$FULL_REPO"
@@ -107,8 +107,8 @@ if [ $ACTION == "build" ]; then
 
     blink yellow
     START_UTC=$(date +%s)
-    echo -e "\n**************** BUILD *******************\n" >> $BLD_LOG
-    ./build.sh --minrobot clean 2>&1 | tee -a $BLD_LOG
+    echo -e "\n**************** BUILD:$REPO ****************\n" >> $BLD_LOG
+    ./build.sh --minrobot 2>&1 | tee -a $BLD_LOG
     BLD_RES=$?
     END_UTC=$(date +%s)
     ELAPSED=$((END_UTC - START_UTC))
