@@ -140,7 +140,6 @@ fi
 #-------------------------------------------------------
 TS=`uptime | awk '{print $1}'`
 echo "  (E) $ME: updating moos-ivp-heron tree $TS" >> ~/.rebootlog
-# upon_reboot_heron.sh --get
 upon_reboot_heron.sh 
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-heron"
@@ -151,8 +150,7 @@ fi
 #-------------------------------------------------------
 TS=`uptime | awk '{print $1}'`
 echo "  (F) $ME: updating moos-ivp-blueboat tree $TS" >> ~/.rebootlog
-# upon_reboot_blueboat.sh --get -f
-upon_reboot_blueboat.sh 
+upon_reboot_heron.sh 
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-blueboat"
 fi
@@ -163,8 +161,7 @@ fi
 #-------------------------------------------------------
 TS=`uptime | awk '{print $1}'`
 echo "  (G) $ME: updating the missions-auto tree $TS" >> ~/.rebootlog
-# upon_reboot_missions_auto.sh --get
-upon_reboot_missions_auto.sh 
+pablo_git_repo.sh --repo=missions-auto --action=pull -norepo_ok
 if [ "$?" != "0" ]; then
     ALL_OK+=" missions-auto"
 fi
@@ -174,7 +171,6 @@ fi
 #-------------------------------------------------------
 TS=`uptime | awk '{print $1}'`
 echo "  (H) $ME: updating the missions-swarm tree $TS" >> ~/.rebootlog
-#upon_reboot_missions_swarm.sh --get
 upon_reboot_missions_swarm.sh 
 if [ "$?" != "0" ]; then
     ALL_OK+=" missions-swarm"
@@ -185,12 +181,12 @@ PABLO_TYPE=`get_vname.sh --wait --ptype`
 #-------------------------------------------------------
 #  Part 12: Updating the autotest tree
 #-------------------------------------------------------
-#TS=`uptime | awk '{print $1}'`
-#echo "  (Y) $ME: updating the autotest tree $TS" >> ~/.rebootlog
-#upon_reboot_autotest.sh 
-#if [ "$?" != "0" ]; then
-#    ALL_OK+=" autotest"
-#fi
+TS=`uptime | awk '{print $1}'`
+echo "  (Y) $ME: updating the autotest tree $TS" >> ~/.rebootlog
+pablo_git_repo.sh --repo=autotest --action=pull -norepo_ok
+if [ "$?" != "0" ]; then
+    ALL_OK+=" autotest"
+fi
 
 #-------------------------------------------------------
 #  Part N: Finish up! 

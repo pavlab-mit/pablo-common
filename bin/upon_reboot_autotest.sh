@@ -73,9 +73,6 @@ if [ ! -d "${CODEBASE_DIR}" ]; then
      fi
 fi
 
-
 qblink.sh off
-
-
 
 exit 0

@@ -16,6 +16,8 @@ REPO=""
 ACTION=""
 VERBOSE=""
 BLINK="yes"
+NOROK=1
+AND_BUILD="no"
 
 #--------------------------------------------------------
 # Part 2: Handle Command Line Args
@@ -26,12 +28,13 @@ for ARGI; do
         echo "                                                  " 
         echo "Synopsis:                                         " 
         echo "  The $ME script will perform one of several      "
-        echo "  supported actions on the specified repo.         "
+        echo "  supported actions on the specified repo.        "
         echo "                                                  " 
         echo "Options:                                          " 
         echo "  --help, -h                                      "
 	echo "  --verbose, -v        Verbose output             "
 	echo "  --noblink, -nob      No Blinkstick calls        "
+	echo "  --norepo_ok, -norok  No err if repo not present "
         echo "                                                  " 
         echo "  --repo=<repo-name>   Existing pablo repo name   " 
         echo "  --repo=<repo-url>    URL of repo to clone       " 
@@ -41,6 +44,9 @@ for ARGI; do
         echo "  --action=rm                                     " 
         echo "  --action=clean                                  " 
         echo "  --action=build                                  " 
+        echo "                                                  " 
+        echo "  --and_bld, -bld      Build repo after actions:  " 
+        echo "                       clean,clone,pull           " 
         exit 0;
     elif [ "${ARGI:0:7}" = "--repo=" ]; then
         REPO="${ARGI#--repo=*}"
@@ -48,6 +54,10 @@ for ARGI; do
         ACTION="${ARGI#--action=*}"
     elif [ "${ARGI}" = "--terse" -o "${ARGI}" = "-t" ]; then
         TERSE="-n"
+    elif [ "${ARGI}" = "--norepo_ok" -o "${ARGI}" = "-norok" ]; then
+        NOROK=0
+    elif [ "${ARGI}" = "--and_bld" -o "${ARGI}" = "-bld" ]; then
+        AND_BLD="yes"
     else
 	echo "$ME: Bad Arg: $ARGI. Exit Code 1."
         exit 1
@@ -59,27 +69,48 @@ done
 #--------------------------------------------------------
 SUPPORTED_ACTIONS="clone,pull,rm,clean,build"
 if [[ $SUPPORTED_ACTIONS != *"$ACTION"* ]]; then
-    echo "$ACTION is supported. Exit 2."
+    echo "$ACTION is not supported. Exit 2."
     exit 2
 fi
 
 #--------------------------------------------------------
-# Part 4: Verify existence of repo.
+# Part 4: Check if repo already exists on the pablo
 #--------------------------------------------------------
-
 # If the action is "clone" the repo should be the git URL.
-# Otherwise the repo should refer to an existing repo in
-# the $HOME directory. And we check for the latter here.
+# 
+# Otherwise check if repo exists. Depending on NOROK setting
+# the lack of a repo may or may not be regarded as an error.
+
 FULL_REPO="$HOME/$REPO"
 if [ "${ACTION}" != "clone" ]; then
     if [ ! -d "${FULL_REPO}" ]; then
 	echo "Could not find repo: [${REPO}]. Exit 3."
-	exit 3;
+	exit $NOROK;
     fi
 fi
 
 #--------------------------------------------------------
-# Part 5: Handle the clean action
+# Part 5: Handle removing the repo
+#--------------------------------------------------------
+if [ $ACTION == "rm" ]; then
+    cd "$FULL_REPO"
+    echo "Handling $ACTION for $REPO"
+    REPO_LOG="${HOME}/.repo_${REPO}"
+    tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+
+    echo -e "\n**************** Remove:$REPO ****************\n" >> $REPO_LOG
+    if [ -d ".git" ]; then
+	cd ..    
+	rm -rf "$REPO" 2>&1 | tee -a $REPO_LOG
+	RES=$?
+    fi
+    DATE=`date +%Y%m%dT%H%M%S`
+    echo "$RES $DATE" >> $REPO_LOG    
+    exit $RES
+fi
+
+#--------------------------------------------------------
+# Part 6: Handle the clean action
 #--------------------------------------------------------
 if [ $ACTION = "clean" ]; then
     cd "$FULL_REPO"
@@ -93,13 +124,64 @@ if [ $ACTION = "clean" ]; then
     else
 	./build.sh -m clean 2>&1 | tee -a $BLD_LOG
     fi
-    exit 0
+    RES=$?
+    DATE=`date +%Y%m%dT%H%M%S`
+    echo "$RES $DATE" >> $REPO_LOG    
+    if [ $RES != 0 ]; then
+	exit $RES
+    fi
 fi
 
 #--------------------------------------------------------
-# Part 6: Handle the build action
+# Part 7: Handle updating the repo (git pull)
 #--------------------------------------------------------
-if [ $ACTION == "build" ]; then
+if [ $ACTION == "pull" ]; then
+    cd "$FULL_REPO"
+    echo "Handling $ACTION for $REPO"
+    REPO_LOG="${HOME}/.repo_${REPO}"
+    tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+
+    echo -e "\n**************** Pull:$REPO ****************\n" >> $REPO_LOG
+    git pull 2>&1 | tee -a $REPO_LOG
+    RES=$?
+    END_UTC=$(date +%s)
+    DATE=`date +%Y%m%dT%H%M%S`
+    echo "$RES $DATE" >> $REPO_LOG    
+    if [ $RES != 0 ]; then
+	exit $RES
+    fi
+fi
+
+#--------------------------------------------------------
+# Part 8: Handle cloning the repo
+#--------------------------------------------------------
+if [ $ACTION == "clone" ]; then
+    cd $HOME
+    echo "Handling $ACTION for $REPO"
+    CLONE_LOG="${HOME}/.clone_log"
+    tail -n 500 $CLONE_LOG > file.tmp && mv -f file.tmp $CLONE_LOG
+
+    START_UTC=$(date +%s)
+    echo -e "\n**************** Clone:$REPO ****************\n" >> $CLONE_LOG
+    if [ ! -d "$REPO" ]; then
+	git clone "$REPO" 2>&1 | tee -a $CLONE_LOG
+	RES=$?
+    fi
+    END_UTC=$(date +%s)
+    ELAPSED=$((END_UTC - START_UTC))
+    DATE=`date +%Y%m%dT%H%M%S`
+    echo "$RES $ELAPSED $END_UTC $DATE" >> $CLONE_LOG    
+    if [ $RES != 0 ]; then
+	exit $RES
+    fi
+fi
+
+
+
+#--------------------------------------------------------
+# Part 9: Handle the build action
+#--------------------------------------------------------
+if [ $ACTION == "build" -o "${AND_BLD}" = "yes" ]; then
     cd "$FULL_REPO"
     echo "Handling $ACTION for $REPO"
     BLD_LOG="${HOME}/.bld_${REPO}"
@@ -115,77 +197,8 @@ if [ $ACTION == "build" ]; then
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$BLD_RES $ELAPSED $END_UTC $DATE" >> $BLD_LOG
     blink off
-    exit 0
 fi
 
-#--------------------------------------------------------
-# Part 7: Handle updating the repo (git pull)
-#--------------------------------------------------------
-if [ $ACTION == "pull" ]; then
-    cd "$FULL_REPO"
-    echo "Handling $ACTION for $REPO"
-    REPO_LOG="${HOME}/.repo_${REPO}"
-    tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
+exit 0
 
-    START_UTC=$(date +%s)
-    echo -e "\n**************** Pull:$REPO ****************\n" >> $REPO_LOG
-    git pull 2>&1 | tee -a $REPO_LOG
-    PULL_RES=$?
-    END_UTC=$(date +%s)
-    ELAPSED=$((END_UTC - START_UTC))
-    DATE=`date +%Y%m%dT%H%M%S`
-    echo "$PULL_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
-    exit 0
-fi
-
-#--------------------------------------------------------
-# Part 8: Handle removing the repo
-#--------------------------------------------------------
-if [ $ACTION == "rm" ]; then
-    cd "$FULL_REPO"
-    echo "Handling $ACTION for $REPO"
-    REPO_LOG="${HOME}/.repo_${REPO}"
-    tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
-
-    START_UTC=$(date +%s)
-    echo -e "\n**************** Remove:$REPO ****************\n" >> $REPO_LOG
-    echo "1111"
-    if [ -d ".git" ]; then
-	echo "2222"
-	cd ..    
-	rm -rf "$REPO" 2>&1 | tee -a $REPO_LOG
-	echo "3333:$?"
-	RM_RES=$?
-    fi
-    END_UTC=$(date +%s)
-    ELAPSED=$((END_UTC - START_UTC))
-    DATE=`date +%Y%m%dT%H%M%S`
-    echo "$RM_RES $ELAPSED $END_UTC $DATE" >> $REPO_LOG    
-    exit 0
-fi
-
-#--------------------------------------------------------
-# Part 9: Handle cloning the repo
-#--------------------------------------------------------
-if [ $ACTION == "clone" ]; then
-    cd $HOME
-    echo "Handling $ACTION for $REPO"
-    CLONE_LOG="${HOME}/.clone_log"
-    tail -n 500 $CLONE_LOG > file.tmp && mv -f file.tmp $CLONE_LOG
-
-    START_UTC=$(date +%s)
-    echo -e "\n**************** Clone:$REPO ****************\n" >> $CLONE_LOG
-    if [ ! -d "$REPO" ]; then
-	git clone "$REPO" 2>&1 | tee -a $CLONE_LOG
-	echo "3333:$?"
-	CLONE_RES=$?
-    fi
-    END_UTC=$(date +%s)
-    ELAPSED=$((END_UTC - START_UTC))
-    DATE=`date +%Y%m%dT%H%M%S`
-    echo "$CLONE_RES $ELAPSED $END_UTC $DATE" >> $CLONE_LOG    
-    exit 0
-fi
-
-echo "Unrecognized action"
 
