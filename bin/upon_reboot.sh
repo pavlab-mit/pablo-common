@@ -92,7 +92,7 @@ echo "  (START) $ME .... (script updated March 29, 2026) " >> ~/.rebootlog
 #-------------------------------------------------------
 #  Update moos-ivp tree
 #-------------------------------------------------------
-lognote "  (A) $ME: updating the moos-ivp tree."
+lognote "  (A) $ME: updating moos-ivp tree."
 upon_reboot_moosivp.sh
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp"
