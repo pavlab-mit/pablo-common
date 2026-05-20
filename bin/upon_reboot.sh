@@ -13,13 +13,11 @@
 PATH=$PATH:/bin
 PATH=$PATH:/usr/bin
 PATH=$PATH:/usr/local/bin
-PATH=$PATH:~/moos-ivp-heron/bin
-PATH=$PATH:~/moos-ivp-blueboat/bin
-PATH=$PATH:~/moos-ivp-swarm/bin
-PATH=$PATH:~/moos-ivp-2680/bin
-PATH=$PATH:~/pablo-common/bin
-PATH=$PATH:~/pablo-common-aro/bin
 vecho() { if [ "$VERBOSE" != "" ]; then echo "$ME: $1"; fi }
+lognote() {
+    TS=`uptime | awk '{print $1}'`
+    echo "$1 $TS" >> ~/.rebootlog
+}
 
 #-------------------------------------------------------
 #  Part 2: Initialize global variables
@@ -42,8 +40,8 @@ for ARGI; do
         echo "  upon_rebootx.sh script. This script performs a set   "
         echo "  of tasks such as svn updating key folders and        "
         echo "  (re)building code if needed.                         "
-        echo "  Note the upon_rebootx.sh script which typically wraps"
-	echo "  this script, will first do an svn update of the tree "
+        echo "  Note the upon_rebootx.sh script which wraps this     "
+	echo "  script, will first do an update/poll of the tree     "
 	echo "  in which this script resides. So it can be expected  "
 	echo "  that changes to this script will be executed the     "
 	echo "  very next time the pablo reboots.                    "
@@ -75,8 +73,8 @@ for ARGI; do
 done
 
 #--------------------------------------------------------------
-#  Part 2B: If a wait was requested, do it here. May help when
-#           large N machines booting and hitting repos for updates
+#  If a wait was requested, do it here. May help when
+#  large N machines booting and hitting repos for updates
 #--------------------------------------------------------------
 if [ "${WAIT}" != "" ]; then
     RWAIT=$((1 + $RANDOM % $WAIT))
@@ -85,111 +83,86 @@ if [ "${WAIT}" != "" ]; then
 fi
 
 #--------------------------------------------------------------
-#  Part 3: Prune the .rebootlog file to be no more than 500 lines
-#          and then add a new entries to the .rebootlog file.
+#  Prune the .rebootlog file to be no more than 500 lines
 #--------------------------------------------------------------
 tail -n 500 ~/.rebootlog > ~/.tmp && mv -f ~/.tmp ~/.rebootlog
 echo "-------------------------------------------" >> ~/.rebootlog
 echo "  (START) $ME .... (script updated March 29, 2026) " >> ~/.rebootlog
 
 #-------------------------------------------------------
-#  Part 4: Updating the moos-ivp tree
+#  Update moos-ivp tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (A) $ME: updating the moos-ivp tree $TS" >> ~/.rebootlog
-#upon_reboot_moosivp.sh -u (changed by mikerb Jul0923)
+lognote "  (A) $ME: updating the moos-ivp tree."
 upon_reboot_moosivp.sh
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp"
 fi
 
 #-------------------------------------------------------
-#  Part 5: Updating the moos-ivp-swarm tree
+#  Update moos-ivp-swarm tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (B) $ME: updating the moos-ivp-swarm tree $TS" >> ~/.rebootlog
+lognote "  (B) $ME: updating the moos-ivp-swarm tree."
 upon_reboot_swarm.sh
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-swarm"
 fi
 
 #-------------------------------------------------------
-#  Part 6: Updating the moos-ivp-2680 tree
+#  Update moos-ivp-2680 tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (C) $ME: updating the moos-ivp-2680 tree $TS" >> ~/.rebootlog
-upon_reboot_2680.sh --get
+lognote "  (C) $ME: updating the moos-ivp-2680 tree."
+pablo_git_repo.sh --repo=moos-ivp-2680 --action=pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-2680"
 fi
 
 #-------------------------------------------------------
-#  Part 7: Updating the moos-ivp-pavlab tree
+#  Update moos-ivp-heron tree
 #-------------------------------------------------------
-PABLO_NAME=`get_vname.sh`
-TS=`uptime | awk '{print $1}'`
-echo "  (D) $ME: updating moos-ivp-pavlab tree $TS" >> ~/.rebootlog
-upon_reboot_pavlab.sh
-if [ "$?" != "0" ]; then
-    ALL_OK+=" moos-ivp-pavlab"
-fi
-#fi
-    
-#-------------------------------------------------------
-#  Part 8: Updating the moos-ivp-heron tree
-#-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (E) $ME: updating moos-ivp-heron tree $TS" >> ~/.rebootlog
-upon_reboot_heron.sh 
+lognote "  (E) $ME: updating moos-ivp-heron tree."
+pablo_git_repo.sh --repo=moos-ivp-heron --action=pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-heron"
 fi
 
 #-------------------------------------------------------
-#  Part 9: Updating the moos-ivp-blueboat tree
+#  Update moos-ivp-blueboat tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (F) $ME: updating moos-ivp-blueboat tree $TS" >> ~/.rebootlog
-upon_reboot_heron.sh 
+lognote "  (F) $ME: updating moos-ivp-blueboat tree."
+pablo_git_repo.sh --repo=moos-ivp-blueboat --action=pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-blueboat"
 fi
 
-    
 #-------------------------------------------------------
-#  Part 10: Updating the missions-auto tree
+#  Update missions-auto tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (G) $ME: updating the missions-auto tree $TS" >> ~/.rebootlog
-pablo_git_repo.sh --repo=missions-auto --action=pull -norepo_ok
+lognote "  (G) $ME: updating the missions-auto tree."
+pablo_git_repo.sh --repo=missions-auto --action=pull -norok
 if [ "$?" != "0" ]; then
     ALL_OK+=" missions-auto"
 fi
 
 #-------------------------------------------------------
-#  Part 9: Updating the missions-swarm tree
+#  Update missions-swarm tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (H) $ME: updating the missions-swarm tree $TS" >> ~/.rebootlog
-upon_reboot_missions_swarm.sh 
+lognote "  (H) $ME: updating the missions-swarm tree."
+pablo_git_repo.sh --repo=missions-swarm --action=pull -norok
 if [ "$?" != "0" ]; then
     ALL_OK+=" missions-swarm"
 fi
 
-PABLO_TYPE=`get_vname.sh --wait --ptype`
-
 #-------------------------------------------------------
-#  Part 12: Updating the autotest tree
+#  Update autotest tree
 #-------------------------------------------------------
-TS=`uptime | awk '{print $1}'`
-echo "  (Y) $ME: updating the autotest tree $TS" >> ~/.rebootlog
+lognote "  (Y) $ME: updating the autotest tree."
 pablo_git_repo.sh --repo=autotest --action=pull -norepo_ok
 if [ "$?" != "0" ]; then
     ALL_OK+=" autotest"
 fi
 
 #-------------------------------------------------------
-#  Part N: Finish up! 
+#  Finish up! 
 #-------------------------------------------------------
 TS=`date +%H:%I:%S`
 if [ "${ALL_OK}" = "" ]; then
