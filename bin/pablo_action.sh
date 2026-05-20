@@ -10,6 +10,7 @@
 ME=`basename "$0"`
 ACTION=""
 BLINK=""
+DELAY="3"
 
 #-------------------------------------------------------
 #  Part 2: Check for and handle command-line arguments
@@ -38,6 +39,8 @@ for ARGI; do
 	echo "  --white             Blink white before action   "
 	echo "  --pink              Blink pink before action    "
 	echo "                                                  "
+	echo "  --delay=N           Delay N secs after blink    "
+	echo "                                                  "
 	echo "Returns:                                          "
 	echo "  9 if action not supported                       "
 	echo "  Return value of action otherwise.               "
@@ -63,6 +66,9 @@ for ARGI; do
 	BLINK="yellow"
     elif [ "${ARGI}" = "--pink" ]; then
 	BLINK="pink"
+
+    elif [ "${ARGI:0:8}" = "--delay=" ]; then
+        DELAY="${ARGI#--delay=*}"
     else
 	exit 1
     fi
@@ -73,7 +79,7 @@ done
 #-------------------------------------------------------
 if [ "${BLINK}" != "" ]; then
     qblink.sh $BLINK --dim -2
-    sleep 1
+    sleep $DELAY
 fi
 
 #-------------------------------------------------------
