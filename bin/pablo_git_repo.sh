@@ -84,7 +84,7 @@ fi
 FULL_REPO="$HOME/$REPO"
 if [ "${ACTION}" != "clone" ]; then
     if [ ! -d "${FULL_REPO}" ]; then
-	echo "Could not find repo: [${REPO}]. Exit 3."
+	echo "$ME: Could not find repo: [${REPO}]. Exit $NOROK."
 	exit $NOROK;
     fi
 fi
