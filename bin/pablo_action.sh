@@ -57,7 +57,7 @@ for ARGI; do
 	BLINK="cyan"
     elif [ "${ARGI}" = "--blue" ]; then
 	BLINK="blue"
-    elif [ "${ARGI}" = "yellow" ]; then
+    elif [ "${ARGI}" = "--yellow" ]; then
 	BLINK="yellow"
     elif [ "${ARGI}" = "--white" ]; then
 	BLINK="yellow"
@@ -73,6 +73,7 @@ done
 #-------------------------------------------------------
 if [ "${BLINK}" != "" ]; then
     qblink.sh $BLINK --dim -2
+    sleep 1
 fi
 
 #-------------------------------------------------------
