@@ -156,7 +156,7 @@ fi
 #  Update autotest tree
 #-------------------------------------------------------
 lognote "  (Y) $ME: updating the autotest tree."
-pablo_git_repo.sh --repo=autotest --action=pull -norepo_ok
+pablo_git_repo.sh --repo=autotest --action=pull -norok
 if [ "$?" != "0" ]; then
     ALL_OK+=" autotest"
 fi
