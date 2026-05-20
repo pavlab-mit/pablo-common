@@ -80,6 +80,7 @@ done
 if [ "${BLINK}" != "" ]; then
     qblink.sh $BLINK --dim -2
     sleep $DELAY
+    qblink.sh off
 fi
 
 #-------------------------------------------------------
@@ -93,7 +94,6 @@ elif [ "${ACTION}" = "reboot" ]; then
     sudo reboot --no-wall
 elif [ "${ACTION}" = "ktm" ]; then
     ktm
-    qblink.sh off
 fi
 
 exit 0
