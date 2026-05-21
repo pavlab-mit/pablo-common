@@ -14,10 +14,10 @@ blink() { if [ "$BLINK" = "yes" ]; then qblink.sh $1 --b30 -2; fi }
 ME=`basename "$0"`
 REPO=""
 ACTION=""
+BUILD=""
 VERBOSE=""
 BLINK="yes"
 NOROK=1
-AND_BUILD="no"
 
 #--------------------------------------------------------
 # Part 2: Handle Command Line Args
@@ -39,25 +39,45 @@ for ARGI; do
         echo "  --repo=<repo-name>   Existing pablo repo name   " 
         echo "  --repo=<repo-url>    URL of repo to clone       " 
         echo "                                                  " 
-        echo "  --action=clone                                  " 
-        echo "  --action=pull                                   " 
-        echo "  --action=rm                                     " 
-        echo "  --action=clean                                  " 
-        echo "  --action=build                                  " 
+        echo "Options (Actions):                                " 
+        echo "  --clone              Clone given by --repo url  " 
+        echo "  --pull               Pull given by --repo name  " 
+        echo "  --rm, -rm            Remove repo by --repo name " 
+        echo "  --clean              Clean repo by --repo name  " 
+        echo "  --build, -bld        Build repo by --repo name  " 
+        echo "  --switch=<branch>    Switch repo by --repo name " 
+        echo "                       to given branch            " 
         echo "                                                  " 
-        echo "  --and_bld, -bld      Build repo after actions:  " 
-        echo "                       clean,clone,pull           " 
+        echo "Note: A --build option can be provide in addition " 
+        echo "      to --clone, --pull, --clean, --switch>.     " 
+        echo "      The build will be done after first action.  " 
+        echo "                                                  " 
+        echo "Note: For Info options, this script will return a "
+        echo "      single line with no CRLF. For the --switch  " 
+        echo "      action, the new branch name is returned.    " 
         exit 0;
     elif [ "${ARGI:0:7}" = "--repo=" ]; then
         REPO="${ARGI#--repo=*}"
-    elif [ "${ARGI:0:9}" = "--action=" ]; then
-        ACTION="${ARGI#--action=*}"
-    elif [ "${ARGI}" = "--terse" -o "${ARGI}" = "-t" ]; then
-        TERSE="-n"
+    elif [ "${ARGI}" = "--clone" ]; then
+        ACTION="clone"
+    elif [ "${ARGI}" = "--pull" ]; then
+        ACTION="pull"
+    elif [ "${ARGI}" = "--rm" -o "${ARGI}" = "-rm" ]; then
+        ACTION="rm"
+    elif [ "${ARGI}" = "--clean" ]; then
+        ACTION="rm"
+    elif [ "${ARGI}" = "--build" -o "${ARGI}" = "-bld" ]; then
+        BUILD="yes"
+    elif [ "${ARGI:0:9}" = "--switch=" ]; then
+        ACTION="switch"
+        BRANCH="${ARGI#--switch=*}"
+
+    elif [ "${ARGI}" = "--hash" ]; then
+        ACTION="hash"
+    elif [ "${ARGI}" = "--branch" ]; then
+        ACTION="branch"
     elif [ "${ARGI}" = "--norepo_ok" -o "${ARGI}" = "-norok" ]; then
         NOROK=0
-    elif [ "${ARGI}" = "--and_bld" -o "${ARGI}" = "-bld" ]; then
-        AND_BLD="yes"
     else
 	echo "$ME: Bad Arg: $ARGI. Exit Code 1."
         exit 1
@@ -176,12 +196,27 @@ if [ $ACTION == "clone" ]; then
     fi
 fi
 
+#--------------------------------------------------------
+# Part 9: Handle switching the repo branch
+#--------------------------------------------------------
+if [ $ACTION == "switch" ]; then
+    cd $HOME
+    echo "Handling $ACTION for $REPO"
+    git switch $BRANCH
+    if [ $? != 0 ]; then
+	exit 1
+    fi
+    BRANCH=`git branch --show-current`
+    # echo confirming the current branch, but if -bld selected
+    # there may be more output during the build procees
+    echo -n $BRANCH
+fi
 
 
 #--------------------------------------------------------
-# Part 9: Handle the build action
+# Part 10: Handle the build action
 #--------------------------------------------------------
-if [ $ACTION == "build" -o "${AND_BLD}" = "yes" ]; then
+if [ "${BUILD}" = "yes" ]; then
     cd "$FULL_REPO"
     echo "Handling $ACTION for $REPO"
     BLD_LOG="${HOME}/.bld_${REPO}"
@@ -197,6 +232,24 @@ if [ $ACTION == "build" -o "${AND_BLD}" = "yes" ]; then
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$BLD_RES $ELAPSED $END_UTC $DATE" >> $BLD_LOG
     blink off
+fi
+
+#--------------------------------------------------------
+# Part 11: Handle getting repo current hash
+#--------------------------------------------------------
+if [ "${ACTION}" = "hash" ]; then
+    cd "$FULL_REPO"
+    HASH=`git rev-parse --short HEAD`
+    echo -n $HASH
+fi
+
+#--------------------------------------------------------
+# Part 12: Handle getting repo current branch
+#--------------------------------------------------------
+if [ "${ACTION}" = "branch" ]; then
+    cd "$FULL_REPO"
+    BRANCH=`git branch --show-current`
+    echo -n $BRANCH
 fi
 
 exit 0
