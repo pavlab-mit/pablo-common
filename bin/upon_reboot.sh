@@ -102,7 +102,7 @@ fi
 #  Update moos-ivp-swarm tree
 #-------------------------------------------------------
 lognote "  (B) $ME: updating moos-ivp-swarm tree, if present."
-pablo_git_repo.sh --repo=moos-ivp-swarm --action=pull -norok -bld
+pablo_git_repo.sh --repo=moos-ivp-swarm --pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-swarm"
 fi
@@ -111,7 +111,7 @@ fi
 #  Update moos-ivp-2680 tree
 #-------------------------------------------------------
 lognote "  (C) $ME: updating moos-ivp-2680 tree, if present."
-pablo_git_repo.sh --repo=moos-ivp-2680 --action=pull -norok -bld
+pablo_git_repo.sh --repo=moos-ivp-2680 --pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-2680"
 fi
@@ -120,7 +120,7 @@ fi
 #  Update moos-ivp-heron tree
 #-------------------------------------------------------
 lognote "  (D) $ME: updating moos-ivp-heron tree, if present."
-pablo_git_repo.sh --repo=moos-ivp-heron --action=pull -norok -bld
+pablo_git_repo.sh --repo=moos-ivp-heron --pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-heron"
 fi
@@ -129,7 +129,7 @@ fi
 #  Update moos-ivp-blueboat tree
 #-------------------------------------------------------
 lognote "  (E) $ME: updating moos-ivp-blueboat tree, if present."
-pablo_git_repo.sh --repo=moos-ivp-blueboat --action=pull -norok -bld
+pablo_git_repo.sh --repo=moos-ivp-blueboat --pull -norok -bld
 if [ "$?" != "0" ]; then
     ALL_OK+=" moos-ivp-blueboat"
 fi
@@ -138,7 +138,7 @@ fi
 #  Update missions-auto tree
 #-------------------------------------------------------
 lognote "  (F) $ME: updating missions-auto tree, if present."
-pablo_git_repo.sh --repo=missions-auto --action=pull -norok
+pablo_git_repo.sh --repo=missions-auto --pull -norok
 if [ "$?" != "0" ]; then
     ALL_OK+=" missions-auto"
 fi
@@ -147,7 +147,7 @@ fi
 #  Update missions-swarm tree
 #-------------------------------------------------------
 lognote "  (G) $ME: updating missions-swarm tree, if present."
-pablo_git_repo.sh --repo=missions-swarm --action=pull -norok
+pablo_git_repo.sh --repo=missions-swarm --pull -norok
 if [ "$?" != "0" ]; then
     ALL_OK+=" missions-swarm"
 fi
@@ -156,7 +156,7 @@ fi
 #  Update autotest tree
 #-------------------------------------------------------
 lognote "  (H) $ME: updating autotest tree, if present."
-pablo_git_repo.sh --repo=autotest --action=pull -norok
+pablo_git_repo.sh --repo=autotest --pull -norok
 if [ "$?" != "0" ]; then
     ALL_OK+=" autotest"
 fi
