@@ -39,6 +39,20 @@ IN_SSH_KEYS=$PABLO_DIR/pablo_authorized_keys
 TARG_SSH_KEYS=~/.ssh/authorized_keys
 $PABLO_DIR/bin/copy_no_duplicates.sh $IN_SSH_KEYS $TARG_SSH_KEYS
 
+
+pname=`pablo_name.sh`
+if [ "${pname}" = "" ] ; then
+    pname="pablo"
+fi
+
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\[\033[01;35m\]$pname\[\033[00m\]:\[\033[01;34m\]\w\$\[\033[00m\] '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
 #---------------------------------------------------------
 # Get Temperature function for RasPIs
 #---------------------------------------------------------
