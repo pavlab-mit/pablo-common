@@ -48,6 +48,11 @@ for ARGI; do
         echo "  --switch=<branch>    Switch repo by --repo name " 
         echo "                       to given branch            " 
         echo "                                                  " 
+        echo "Options (Query):                                  " 
+        echo "  --hash               Git hash for given repo    " 
+        echo "  --branch             Git branch for given repo  " 
+        echo "  --du                 Disk usage for given repo  " 
+        echo "                                                  " 
         echo "Note: A --build option can be provide in addition " 
         echo "      to --clone, --pull, --clean, --switch>.     " 
         echo "      The build will be done after first action.  " 
@@ -76,6 +81,8 @@ for ARGI; do
         ACTION="hash"
     elif [ "${ARGI}" = "--branch" ]; then
         ACTION="branch"
+    elif [ "${ARGI}" = "--du" ]; then
+        ACTION="du"
     elif [ "${ARGI}" = "--norepo_ok" -o "${ARGI}" = "-norok" ]; then
         NOROK=0
     else
@@ -87,7 +94,7 @@ done
 #--------------------------------------------------------
 # Part 3: Verify valid action 
 #--------------------------------------------------------
-SUPPORTED_ACTIONS="clone,pull,rm,clean,build,hash,branch"
+SUPPORTED_ACTIONS="clone,pull,rm,clean,build,hash,branch,du"
 if [[ $SUPPORTED_ACTIONS != *"$ACTION"* ]]; then
     echo "$ACTION is not supported. Exit 2."
     exit 2
@@ -250,6 +257,15 @@ if [ "${ACTION}" = "branch" ]; then
     cd "$FULL_REPO"
     BRANCH=`git branch --show-current`
     echo -n $BRANCH
+fi
+
+#--------------------------------------------------------
+# Part 13: Handle getting disk usage current branch
+#--------------------------------------------------------
+if [ "${ACTION}" = "du" ]; then
+    cd "$FULL_REPO"
+    DINFO=`du --max-depth=0 -h | awk '{print $1}'`
+    echo -n $DINFO
 fi
 
 exit 0
