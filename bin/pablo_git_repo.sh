@@ -87,7 +87,7 @@ done
 #--------------------------------------------------------
 # Part 3: Verify valid action 
 #--------------------------------------------------------
-SUPPORTED_ACTIONS="clone,pull,rm,clean,build"
+SUPPORTED_ACTIONS="clone,pull,rm,clean,build,hash,branch"
 if [[ $SUPPORTED_ACTIONS != *"$ACTION"* ]]; then
     echo "$ACTION is not supported. Exit 2."
     exit 2
