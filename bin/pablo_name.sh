@@ -425,6 +425,21 @@ elif [ "${MAC_ADDR}" = "88:a2:9e:9d:17:2a" ]; then VNAME="str17";
 elif [ "${MAC_ADDR}" = "88:a2:9e:9c:cb:da" ]; then VNAME="str18";
 elif [ "${MAC_ADDR}" = "88:a2:9e:9b:74:21" ]; then VNAME="str19";
 elif [ "${MAC_ADDR}" = "88:a2:9e:9d:12:56" ]; then VNAME="str20";
+
+elif [ "${MAC_ADDR}" = "88:a2:9e:c3:a5:83" ]; then VNAME="str21";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dd:ac" ]; then VNAME="str22";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c3:a7:c1" ]; then VNAME="str23";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:da:11" ]; then VNAME="str24";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c3:a7:e3" ]; then VNAME="str25";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:db:e3" ]; then VNAME="str26";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c3:a7:71" ]; then VNAME="str27";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dd:f6" ]; then VNAME="str28";
+
+elif [ "${MAC_ADDR}" = "88:a2:9e:9b:74:21" ]; then VNAME="str29";
+elif [ "${MAC_ADDR}" = "88:a2:9e:9d:12:56" ]; then VNAME="str30";
+
+
+
 fi
 
 # if one of those MAC addresses matches, the we have an mtasc pablo
