@@ -437,16 +437,16 @@ elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dd:ac" ]; then VNAME="str28";
 elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dd:8b" ]; then VNAME="str29";
 elif [ "${MAC_ADDR}" = "88:a2:9e:c3:a5:83" ]; then VNAME="str30";
 
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str31";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str32";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str33";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str34";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str35";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str36";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str37";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str38";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str39";
-elif [ "${MAC_ADDR}" = "" ]; then VNAME="str40";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:da:d7" ]; then VNAME="str31";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dc:39" ]; then VNAME="str32";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dc:d7" ]; then VNAME="str33";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dd:63" ]; then VNAME="str34";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dc:3d" ]; then VNAME="str35";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:db:2b" ]; then VNAME="str36";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:db:0a" ]; then VNAME="str37";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:dc:5b" ]; then VNAME="str38";
+elif [ "${MAC_ADDR}" = "88:a2:9e:c7:db:13" ]; then VNAME="str39";
+elif [ "${MAC_ADDR}" = "2c:cf:67:de:1a:0e" ]; then VNAME="str40";
 
 
 
