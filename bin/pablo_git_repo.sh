@@ -96,17 +96,17 @@ for ARGI; do
         NOROK=0
 
     elif [ "${ARGI}" = "--cyan" ]; then
-        COLOR=$ARGI
+        COLOR="cyan"
     elif [ "${ARGI}" = "--blue" ]; then
-        COLOR=$ARGI
+        COLOR="blue"
     elif [ "${ARGI}" = "--yellow" ]; then
-        COLOR=$ARGI
+        COLOR="yellow"
     elif [ "${ARGI}" = "--white" ]; then
-        COLOR=$ARGI
+        COLOR="white"
     elif [ "${ARGI}" = "--pink" ]; then
-        COLOR=$ARGI
+        COLOR="pink"
     elif [ "${ARGI}" = "--brown" ]; then
-        COLOR=$ARGI
+        COLOR="brown"
 
     else
 	echo "$ME: Bad Arg: $ARGI. Exit Code 1."
