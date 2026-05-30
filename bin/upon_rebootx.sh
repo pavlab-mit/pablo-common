@@ -2,7 +2,7 @@
 #--------------------------------------------------------------
 #  Script: upon_rebootx.sh (wrapper for upon_reboot.sh)
 #  Author: Michael Benjamin
-#  Date:   Dec 2nd 2019
+#  Date:   May 2026
 #  About:  This script will be invoked upon a reboot of the
 #          pablo, by an @reboot cronjob. It will:
 #          (a) verify a network connection and light RED if no
