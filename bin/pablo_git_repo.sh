@@ -24,7 +24,6 @@ NOROK=1
 # Part 2: Handle Command Line Args
 #--------------------------------------------------------
 for ARGI; do
-    echo "ARGI:["$ARGI"]"
     if [ "${ARGI}" = "--help" -o "${ARGI}" = "-h" ]; then
         echo "$ME [OPTIONS]                                     "
         echo "                                                  " 
