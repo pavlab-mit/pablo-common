@@ -38,6 +38,7 @@ for ARGI; do
 	echo "  --yellow            Blink yellow before action  "
 	echo "  --white             Blink white before action   "
 	echo "  --pink              Blink pink before action    "
+	echo "  --brown             Blink brown before action   "
 	echo "                                                  "
 	echo "  --delay=N           Delay N secs after blink    "
 	echo "                                                  "
@@ -66,6 +67,8 @@ for ARGI; do
 	BLINK="yellow"
     elif [ "${ARGI}" = "--pink" ]; then
 	BLINK="pink"
+    elif [ "${ARGI}" = "--brown" ]; then
+	BLINK="brown"
 
     elif [ "${ARGI:0:8}" = "--delay=" ]; then
         DELAY="${ARGI#--delay=*}"
@@ -93,7 +96,7 @@ elif [ "${ACTION}" = "shutdown" ]; then
 elif [ "${ACTION}" = "reboot" ]; then
     sudo reboot --no-wall
 elif [ "${ACTION}" = "ktm" ]; then
-    ktm
+    ktm; killall -9 pLogger
 fi
 
 exit 0

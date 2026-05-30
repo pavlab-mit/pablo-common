@@ -4,9 +4,10 @@
 #   Date: Apr 28th, 2026
 #     By: Mike Benjamin
 #  About: Execute an action upon a given pablo git repo
-
+#--------------------------------------------------------
+# Part 1: Useful Utilities
+#--------------------------------------------------------
 vecho() { if [ "$VERBOSE" != "" ]; then echo "$ME: $1"; fi }
-blink() { if [ "$BLINK" = "yes" ]; then qblink.sh $1 --b30 -2; fi }
 
 #--------------------------------------------------------
 # Part 1: Initialize script variables
@@ -16,7 +17,7 @@ REPO=""
 ACTION=""
 BUILD=""
 VERBOSE=""
-BLINK="yes"
+COLOR=""
 NOROK=1
 
 #--------------------------------------------------------
@@ -33,9 +34,9 @@ for ARGI; do
         echo "Options:                                          " 
         echo "  --help, -h                                      "
 	echo "  --verbose, -v        Verbose output             "
-	echo "  --noblink, -nob      No Blinkstick calls        "
 	echo "  --norepo_ok, -norok  No err if repo not present "
         echo "                                                  " 
+        echo "Options (naming the repo):                        " 
         echo "  --repo=<repo-name>   Existing pablo repo name   " 
         echo "  --repo=<repo-url>    URL of repo to clone       " 
         echo "                                                  " 
@@ -53,6 +54,13 @@ for ARGI; do
         echo "  --branch             Git branch for given repo  " 
         echo "  --du                 Disk usage for given repo  " 
         echo "                                                  " 
+        echo "Options: (colors)                                 "
+        echo "  --cyan               Blink cyan before action   "
+        echo "  --blue               Blink blue before action   "
+        echo "  --yellow             Blink yellow before action "
+        echo "  --white              Blink white before action  "
+        echo "  --pink               Blink pink before action   "
+        echo "                                                  "
         echo "Note: A --build option can be provide in addition " 
         echo "      to --clone, --pull, --clean, --switch>.     " 
         echo "      The build will be done after first action.  " 
@@ -85,6 +93,20 @@ for ARGI; do
         ACTION="du"
     elif [ "${ARGI}" = "--norepo_ok" -o "${ARGI}" = "-norok" ]; then
         NOROK=0
+
+    elif [ "${ARGI}" = "--cyan" ]; then
+        COLOR=$ARGI
+    elif [ "${ARGI}" = "--blue" ]; then
+        COLOR=$ARGI
+    elif [ "${ARGI}" = "--yellow" ]; then
+        COLOR=$ARGI
+    elif [ "${ARGI}" = "--white" ]; then
+        COLOR=$ARGI
+    elif [ "${ARGI}" = "--pink" ]; then
+        COLOR=$ARGI
+    elif [ "${ARGI}" = "--brown" ]; then
+        COLOR=$ARGI
+
     else
 	echo "$ME: Bad Arg: $ARGI. Exit Code 1."
         exit 1
@@ -98,6 +120,15 @@ SUPPORTED_ACTIONS="clone,pull,rm,clean,build,hash,branch,du"
 if [[ $SUPPORTED_ACTIONS != *"$ACTION"* ]]; then
     echo "$ACTION is not supported. Exit 2."
     exit 2
+fi
+
+#--------------------------------------------------------
+# Part 3: Acknowledge receipt of action with blink
+#--------------------------------------------------------
+if [ "$COLOR" != "" ]; then
+    qblink.sh $COLOR --b30 -2;
+    sleep 3
+    qblink.sh off;
 fi
 
 #--------------------------------------------------------
@@ -229,7 +260,11 @@ if [ "${BUILD}" = "yes" ]; then
     BLD_LOG="${HOME}/.bld_${REPO}"
     tail -n 800 $BLD_LOG > file.tmp && mv -f file.tmp $BLD_LOG
 
-    blink yellow
+    # Flashing Blink during build if color provided
+    if [ "$COLOR" != "" ]; then
+	qblink.sh $COLOR --blink=1000 --b30 -2 &
+    fi
+    
     START_UTC=$(date +%s)
     echo -e "\n**************** BUILD:$REPO ****************\n" >> $BLD_LOG
     ./build.sh --minrobot 2>&1 | tee -a $BLD_LOG
@@ -238,7 +273,10 @@ if [ "${BUILD}" = "yes" ]; then
     ELAPSED=$((END_UTC - START_UTC))
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$BLD_RES $ELAPSED $END_UTC $DATE" >> $BLD_LOG
-    blink off
+
+    if [ "$COLOR" != "" ]; then
+	qblink.sh off
+    fi
 fi
 
 #--------------------------------------------------------
