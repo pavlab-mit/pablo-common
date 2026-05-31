@@ -68,6 +68,17 @@ for ARGI; do
         echo "Note: For Info options, this script will return a "
         echo "      single line with no CRLF. For the --switch  " 
         echo "      action, the new branch name is returned.    " 
+	echo "                                                  "
+	echo "Return Value                                      "
+	echo "      0        Success                            "
+	echo "      1        Unsupported arg                    "
+	echo "      2        Unsupported action                 "
+	echo "      3        Specified repo is not present      "
+	echo "      4        Failed repo remove                 "
+	echo "      5        Failed repo pull                   "
+	echo "      6        Failed repo clone                  "
+	echo "      7        Failed repo branch switch          "
+	echo "      8        Failed repo build                  "
         exit 0;
     elif [ "${ARGI:0:7}" = "--repo=" ]; then
         REPO="${ARGI#--repo=*}"
@@ -164,7 +175,10 @@ if [ $ACTION == "rm" ]; then
     fi
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$RES $DATE" >> $REPO_LOG    
-    exit $RES
+    if [ $RES != 0 ]; then
+	exit 4
+    fi
+    exit 0
 fi
 
 #--------------------------------------------------------
@@ -186,7 +200,7 @@ if [ $ACTION = "clean" ]; then
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$RES $DATE" >> $REPO_LOG    
     if [ $RES != 0 ]; then
-	exit $RES
+	exit 5
     fi
 fi
 
@@ -206,7 +220,7 @@ if [ $ACTION == "pull" ]; then
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$RES $DATE" >> $REPO_LOG    
     if [ $RES != 0 ]; then
-	exit $RES
+	exit 6
     fi
 fi
 
@@ -230,7 +244,7 @@ if [ $ACTION == "clone" ]; then
     DATE=`date +%Y%m%dT%H%M%S`
     echo "$RES $ELAPSED $END_UTC $DATE" >> $CLONE_LOG    
     if [ $RES != 0 ]; then
-	exit $RES
+	exit 6
     fi
 fi
 
@@ -242,7 +256,7 @@ if [ $ACTION == "switch" ]; then
     echo "Handling $ACTION for $REPO"
     git switch $BRANCH
     if [ $? != 0 ]; then
-	exit 1
+	exit 7
     fi
     BRANCH=`git branch --show-current`
     # echo confirming the current branch, but if -bld selected
@@ -277,6 +291,11 @@ if [ "${BUILD}" = "yes" ]; then
     if [ "$COLOR" != "" ]; then
 	qblink.sh off
     fi
+
+    if [ $BLD_RES != 0 ]; then
+	exit 8
+    fi
+    
 fi
 
 #--------------------------------------------------------
