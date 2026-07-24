@@ -132,14 +132,11 @@ alias  upsg='cd $CDMS_DIR; git stash; upon_reboot_missions_swarm.sh; git stash p
 #-----------------------------------------------------
 # MOOS-IvP-Swarm Mission Directories
 #-----------------------------------------------------
-#alias  cdsw='cd ~/moos-ivp-swarm/'
-#alias cdsws='cd ~/moos-ivp-swarm/src'
-#alias cdswm='cd ~/moos-ivp-swarm/missions'
-#alias cdmen='cd ~/moos-ivp-swarm/missions/ufld_encircle'
-#alias cdsoj='cd ~/moos-ivp-swarm/missions/sea_of_japan'
-#alias cdmuv='cd ~/moos-ivp-swarm/missions/ufld_voronoi'
-#alias   miw='cdsw; ./build.sh; cd -' 
-#alias  miws='cdsw; ./build.sh -j1; cd -' 
+alias  cdsw='cd ~/moos-ivp-swarm/'
+alias cdsws='cd ~/moos-ivp-swarm/src'
+alias cdswm='cd ~/moos-ivp-swarm/missions'
+alias   miw='cdsw; ./build.sh; cd -' 
+alias  miws='cdsw; ./build.sh -j1; cd -' 
 
 # ------------ Subversion Aliases --------------------
 alias svnu='svn update'
