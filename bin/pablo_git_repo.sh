@@ -196,7 +196,7 @@ fi
 #--------------------------------------------------------
 if [ $ACTION = "clean" ]; then
     cd "$FULL_REPO"
-    echo "Handling $ACTION for $REPO"
+    vecho "Handling $ACTION for $REPO"
     BLD_LOG="${HOME}/.bld_${REPO}"
     tail -n 800 $BLD_LOG > file.tmp && mv -f file.tmp $BLD_LOG
     cd $FULL_REPO
@@ -219,7 +219,7 @@ fi
 #--------------------------------------------------------
 if [ $ACTION == "pull" ]; then
     cd "$FULL_REPO"
-    echo "Handling $ACTION for $REPO"
+    vecho "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
     tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
@@ -239,7 +239,7 @@ fi
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
     cd $HOME
-    echo "Handling $ACTION for $REPO"
+    vecho "Handling $ACTION for $REPO"
     CLONE_LOG="${HOME}/.clone_log"
     tail -n 500 $CLONE_LOG > file.tmp && mv -f file.tmp $CLONE_LOG
 
@@ -263,7 +263,7 @@ fi
 #--------------------------------------------------------
 if [ $ACTION == "switch" ]; then
     cd $HOME
-    echo "Handling $ACTION for $REPO"
+    vecho "Handling $ACTION for $REPO"
     git switch $BRANCH
     if [ $? != 0 ]; then
 	exit 7
@@ -280,7 +280,7 @@ fi
 #--------------------------------------------------------
 if [ "${BUILD}" = "yes" ]; then
     cd "$FULL_REPO"
-    echo "Handling $ACTION for $REPO"
+    vecho "Handling $ACTION for $REPO"
     BLD_LOG="${HOME}/.bld_${REPO}"
     tail -n 800 $BLD_LOG > file.tmp && mv -f file.tmp $BLD_LOG
 
