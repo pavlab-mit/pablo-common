@@ -35,9 +35,9 @@ add_to_bdir "$HOME/moos-ivp-multi/lib"
 #---------------------------------------------------------
 # Add ssh authorized keys
 #---------------------------------------------------------
-IN_SSH_KEYS=$PABLO_DIR/pablo_authorized_keys
-TARG_SSH_KEYS=~/.ssh/authorized_keys
-$PABLO_DIR/bin/copy_no_duplicates.sh $IN_SSH_KEYS $TARG_SSH_KEYS
+#IN_SSH_KEYS=$PABLO_DIR/pablo_authorized_keys
+#TARG_SSH_KEYS=~/.ssh/authorized_keys
+#$PABLO_DIR/bin/copy_no_duplicates.sh $IN_SSH_KEYS $TARG_SSH_KEYS
 
 
 pname=`pablo_name.sh`
