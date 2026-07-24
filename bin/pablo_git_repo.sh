@@ -173,7 +173,7 @@ fi
 #--------------------------------------------------------
 if [ $ACTION == "rm" ]; then
     cd "$FULL_REPO"
-    echo "Handling $ACTION for $REPO"
+    vecho "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
     tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
