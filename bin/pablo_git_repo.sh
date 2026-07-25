@@ -242,13 +242,12 @@ fi
 # Part 8: Handle cloning the repo
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
-    echo "DKEY:[$DKEY]"
     if [ "$DKEY" != "" ]; then
 	if [ ! -f "$HOME/.ssh/$DKEY" ]; then
 	    exit 6
 	fi
 	eval $(ssh-agent -s)
-	ssh-add "$HOME/.ssh/$KEY" 
+	ssh-add "$HOME/.ssh/$DKEY" 
     fi
     cd $HOME
     vecho "Handling $ACTION for $REPO"
