@@ -96,6 +96,8 @@ for ARGI; do
         REPO="${ARGI#--repo=*}"
     elif [ "${ARGI}" = "--clone" ]; then
         ACTION="clone"
+    elif [ "${ARGI:0:7}" = "--dkey=" ]; then
+	DKEY="${ARGI#--dkey=*}"
     elif [ "${ARGI}" = "--pull" ]; then
         ACTION="pull"
     elif [ "${ARGI}" = "--rm" -o "${ARGI}" = "-rm" ]; then
