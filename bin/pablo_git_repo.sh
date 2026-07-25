@@ -242,6 +242,7 @@ fi
 # Part 8: Handle cloning the repo
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
+    echo "DKEY:[$DKEY]"
     if [ "$DKEY" != "" ]; then
 	if [ ! -f "$HOME/.ssh/$DKEY" ]; then
 	    exit 6
