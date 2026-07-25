@@ -94,7 +94,8 @@ COUNTER=0
 CONNECTED="false"
 echo -n "ping result: " >> ~/.rebootlog
 while [ "${CONNECTED}" = "false" ]; do
-    ping -c 1 -w 10 oceanai.mit.edu
+    #ping -c 1 -w 10 oceanai.mit.edu
+    ping -c 1 -w 10 8.8.8.8
     PING_RES=$?
     echo -n "$PING_RES " >> ~/.rebootlog
     if [ $PING_RES = 0 ]; then
