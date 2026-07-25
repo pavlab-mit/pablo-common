@@ -19,6 +19,7 @@ BUILD=""
 VERBOSE=""
 COLOR=""
 NOROK=1
+DKEY=""
 
 #--------------------------------------------------------
 # Part 2: Handle Command Line Args
@@ -42,6 +43,7 @@ for ARGI; do
         echo "                                                  " 
         echo "Options (Actions):                                " 
         echo "  --clone              Clone given by --repo url  " 
+        echo "  --dkey=<dkey>        Deploy key for cloning     " 
         echo "  --pull               Pull given by --repo name  " 
         echo "  --rm, -rm            Remove repo by --repo name " 
         echo "  --clean              Clean repo by --repo name  " 
@@ -238,6 +240,13 @@ fi
 # Part 8: Handle cloning the repo
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
+    if [ "$DKEY" != "" ]; then
+	if [ ! -f "$HOME/.ssh/$DKEY" ]; then
+	    exit 6
+	fi
+	eval $(ssh-agent -s)
+	ssh-add "$HOME/.ssh/$KEY" 
+    fi
     cd $HOME
     vecho "Handling $ACTION for $REPO"
     CLONE_LOG="${HOME}/.clone_log"
