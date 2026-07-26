@@ -203,6 +203,7 @@ if [ $ACTION = "clean" ]; then
     cd "$FULL_REPO"
     vecho "Handling $ACTION for $REPO"
     BLD_LOG="${HOME}/.bld_${REPO}"
+    touch $BLD_LOG
     tail -n 800 $BLD_LOG > file.tmp && mv -f file.tmp $BLD_LOG
     cd $FULL_REPO
     echo -e "\n**************** CLEAN *******************\n" >> $BLD_LOG
@@ -254,6 +255,7 @@ if [ $ACTION == "clone" ]; then
     cd $HOME
     vecho "Handling $ACTION for $REPO"
     CLONE_LOG="${HOME}/.clone_log"
+    touch $CLONE_LOG
     tail -n 500 $CLONE_LOG > file.tmp && mv -f file.tmp $CLONE_LOG
 
     START_UTC=$(date +%s)
