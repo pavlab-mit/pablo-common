@@ -245,6 +245,14 @@ fi
 # Part 8: Handle cloning the repo
 #--------------------------------------------------------
 if [ $ACTION == "clone" ]; then
+
+    # first check if the repo is already cloned locally
+    local_dir=`basename "$REPO" .git`
+    if [ -d "$local_dir" ]; then
+	vecho "$local_dir already exists. Exit 33."
+	exit 33
+    fi
+    
     if [ "$DKEY" != "" ]; then
 	if [ ! -f "$HOME/.ssh/$DKEY" ]; then
 	    exit 6
