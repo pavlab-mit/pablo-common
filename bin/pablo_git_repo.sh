@@ -179,6 +179,7 @@ if [ $ACTION == "rm" ]; then
     cd "$FULL_REPO"
     vecho "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
+    touch $REPO_LOG
     tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
     echo -e "\n**************** Remove:$REPO ****************\n" >> $REPO_LOG
@@ -225,6 +226,7 @@ if [ $ACTION == "pull" ]; then
     cd "$FULL_REPO"
     vecho "Handling $ACTION for $REPO"
     REPO_LOG="${HOME}/.repo_${REPO}"
+    touch $REPO_LOG
     tail -n 500 $REPO_LOG > file.tmp && mv -f file.tmp $REPO_LOG
 
     echo -e "\n**************** Pull:$REPO ****************\n" >> $REPO_LOG
